@@ -1,495 +1,193 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guida Valencia - Pratica Frontend</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/SJPMeMyngSlK8+7Kg="
-          crossorigin=""/>
 
-    <style>
-        /* CSS GLOBALE E RESET */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding-top: 60px; /* Spazio per l'Header fisso */
-            background-color: #f4f7f6; /* Sfondo leggero */
-            color: #333;
-        }
+/* CSS GLOBALE E RESET */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding-top: 60px; /* Spazio per l'Header fisso */
+    background-color: #f4f7f6; /* Sfondo leggero */
+    color: #333;
+}
 
-        /* PALETTE COLORI (ISPIRATA ALLA SENYERA + ARANCIONE) */
-        :root {
-            --colore-rosso: #e73238; /* Rosso Senyera */
-            --colore-giallo: #ffc400; /* Giallo Senyera */
-            --colore-blu: #007bff;   /* Blu per contrasto / mare */
-            --colore-arancio: #ff8800; /* Arancio per accenti */
-        }
+/* PALETTE COLORI (ISPIRATA ALLA SENYERA + ARANCIONE) */
+:root {
+    --colore-rosso: #e73238; /* Rosso Senyera */
+    --colore-giallo: #ffc400; /* Giallo Senyera */
+    --colore-blu: #007bff;   /* Blu per contrasto / mare */
+    --colore-arancio: #ff8800; /* Arancio per accenti */
+}
 
-        /* HEADER FISSO (40px di altezza) */
-        #header {
-            position: fixed;
-            top: 0;
-            left: -15px;
-            width: 100%;
-            height: 40px;
-            background-color: var(--colore-rosso);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+/* HEADER FISSO (40px di altezza) */
+#header {
+    position: fixed;
+    top: 0;
+    left: -15px;
+    width: 100%;
+    height: 40px;
+    background-color: var(--colore-rosso);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
 
-        #title {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
+#title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
 
-        /* MENU HAMBURGER (Icona e Stile) */
-        .menu-icon {
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .menu-icon div {
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            transition: all 0.3s;
-        }
-        
-        /* OVERLAY MENU */
-        #menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(218, 18, 26, 1);
-            color: white;
-            display: none; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        #menu-overlay.open {
-            display: flex; 
-        }
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-        .menu-item {
-            padding: 15px 0;
-            font-size: 1.5rem;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            width: 80%;
-            text-align: center;
-        }
+/* MENU HAMBURGER (Icona e Stile) */
+.menu-icon {
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.menu-icon div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: all 0.3s;
+}
 
-        /* SWITCH LINGUA */
-        #language-switch {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: absolute; 
-            right: 80px;
-        }
-        .flag {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: 2px solid white;
-            cursor: pointer;
-            background-size: cover;
-            background-position: center;
-        }
-        .flag.it { background-image: url('https://flagcdn.com/it.svg'); }
-        .flag.es { background-image: url('https://flagcdn.com/es.svg'); }
-        .flag.active { border-color: var(--colore-giallo); } 
+/* OVERLAY MENU */
+#menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(218, 18, 26, 1);
+    color: white;
+    display: none; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+#menu-overlay.open {
+    display: flex; 
+}
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.menu-item {
+    padding: 15px 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    width: 80%;
+    text-align: center;
+}
 
-        /* CONTENUTO PRINCIPALE (per le sezioni) */
-        #main-content {
-            padding: 15px;
-        }
-        .section {
-            display: none; 
-        }
-        .section.active {
-            display: block; 
-        }
+/* SWITCH LINGUA */
+#language-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute; 
+    right: 80px;
+}
+.flag {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+}
+.flag.it { background-image: url('https://flagcdn.com/it.svg'); }
+.flag.es { background-image: url('https://flagcdn.com/es.svg'); }
+.flag.active { border-color: var(--colore-giallo); } 
 
-        /* STILE SPECIFICO PER LA MAPPA */
-        #map-container {
-            height: 600px; 
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        /* STILE PLACEHOLDER GALLERIA */
-        #image-gallery-placeholder {
-            height: 250px;  
-            background-color: #e9ecef;  
-            display: flex;  
-            align-items: center;  
-            justify-content: center;  
-            margin-top: 20px;  
-            color: #6c757d;  
-            border-radius: 8px;
-            font-style: italic;
-        }
+/* CONTENUTO PRINCIPALE (per le sezioni) */
+#main-content {
+    padding: 15px;
+}
+.section {
+    display: none; 
+}
+.section.active {
+    display: block; 
+}
 
-        /* === STILE PER LA GRIGLIA DI MONUMENTI (CORRETTO) === */
-        #monuments-grid {
-            display: grid;
-            gap: 15px; /* Spazio tra le card */
-            padding-top: 10px;
-            /* Griglia Mobile-First: 1 colonna per schermi piccoli */
-            grid-template-columns: 1fr; 
-        }
+/* STILE SPECIFICO PER LA MAPPA */
+#map-container {
+    height: 600px; 
+    width: 100%;
+    margin-top: 10px;
+}
 
-        /* Responsive: 2 colonne per schermi più larghi (es. tablet/desktop) */
-        @media (min-width: 600px) {
-            #monuments-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        /* STILE DELLA SINGOLA CARD */
-        .monument-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden; 
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
+/* STILE PLACEHOLDER GALLERIA */
+#image-gallery-placeholder {
+    height: 250px;  
+    background-color: #e9ecef;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    margin-top: 20px;  
+    color: #6c757d;  
+    border-radius: 8px;
+    font-style: italic;
+}
 
-        .monument-card:hover {
-            transform: translateY(-3px); 
-        }
+/* === STILE PER LA GRIGLIA DI MONUMENTI (CORRETTO) === */
+#monuments-grid {
+    display: grid;
+    gap: 15px; /* Spazio tra le card */
+    padding-top: 10px;
+    /* Griglia Mobile-First: 1 colonna per schermi piccoli */
+    grid-template-columns: 1fr; 
+}
 
-        .card-image {
-            width: 100%;
-            height: 150px; 
-            object-fit: cover; 
-        }
+/* Responsive: 2 colonne per schermi più larghi (es. tablet/desktop) */
+@media (min-width: 600px) {
+    #monuments-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 
-        .card-body {
-            padding: 15px;
-        }
+/* STILE DELLA SINGOLA CARD */
+.monument-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    transition: transform 0.2s;
+    cursor: pointer;
+}
 
-        .card-body h3 {
-            margin-top: 0;
-            color: var(--colore-blu);
-            font-size: 1.1rem;
-        }
+.monument-card:hover {
+    transform: translateY(-3px); 
+}
 
-        .card-body p {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0;
-        }
-        /* === FINE STILE MONUMENTI === */
-    </style>
-</head>
-<body>
+.card-image {
+    width: 100%;
+    height: 150px; 
+    object-fit: cover; 
+}
 
-    <header id="header">
-        <div id="title">Guida Valencia</div>
-        
-        <div id="language-switch">
-            <div class="flag it active" data-lang="it"></div>
-            <div class="flag es" data-lang="es"></div>
-        </div>
+.card-body {
+    padding: 15px;
+}
 
-        <div class="menu-icon" id="menu-toggle">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </header>
+.card-body h3 {
+    margin-top: 0;
+    color: var(--colore-blu);
+    font-size: 1.1rem;
+}
 
-    <div id="menu-overlay">
-        <span class="close-btn" id="menu-close">&times;</span>
-        <div class="menu-item" data-section="home">HOME</div>
-        <div class="menu-item" data-section="storia">STORIA</div>
-        <div class="menu-item" data-section="monumenti">MONUMENTI</div>
-        <div class="menu-item" data-section="cultura">CULTURA</div>
-        <div class="menu-item" data-section="mappa">MAPPA</div>
-        <div class="menu-item" data-section="checklist">CHECKLIST</div>
-    </div>
-
-    <main id="main-content">
-        
-        <section id="home" class="section active">
-            <h2 data-it="Benvenuto a Valencia! 🇪🇸" data-es="¡Bienvenido a Valencia! 🇪🇸">Benvenuto a Valencia! 🇪🇸</h2>
-            <p data-it="La tua guida al viaggio" data-es="Tu guía de viaje">La tua guida al viaggio.</p>
-            
-            <div id="image-gallery-placeholder">
-                Spazio per la Galleria di Immagini (Carosello)
-            </div>
-            
-        </section>
-
-        <section id="mappa" class="section">
-            <h2 data-it="Mappa Interattiva 🗺️" data-es="Mapa Interactivo 🗺️">Mappa Interattiva 🗺️</h2>
-            <div id="map-container"></div>
-        </section>
-
-        <section id="storia" class="section"><h2 data-it="Storia di Valencia" data-es="Historia de Valencia">Storia di Valencia</h2></section>
-        <section id="monumenti" class="section">
-            <h2 data-it="I Monumenti Principali" data-es="Monumentos Principales">I Monumenti Principali</h2>
-            <div id="monuments-grid">
-                <p data-it="Caricamento dei monumenti..." data-es="Cargando monumentos...">Caricamento dei monumenti...</p>
-            </div>
-        </section>
-        <section id="cultura" class="section"><h2 data-it="Tradizioni e Gastronomia" data-es="Tradiciones y Gastronomía">Tradizioni e Gastronomia</h2></section>
-        <section id="checklist" class="section"><h2 data-it="Checklist documenti&bagagli" data-es="Lista de Verificación documentos&maleta">Checklist documenti&bagagli</h2></section>
-
-    </main>
-    
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20n6cT8H+Hl9UfT7nU7tP4gS+j0fT2r+R/J9M8O4oT1I="
-            crossorigin=""></script>
-
-    <script>
-        // Variabili Globali
-        let currentLang = 'it';
-        let map = null; 
-        
-        // ======================================================================
-        // DATI DEI PUNTI DI INTERESSE (POI)
-        // ======================================================================
-        const valenciaPOI = [
-            {
-                nome: "Città delle Arti e delle Scienze",
-                lat: 39.4627, 
-                lon: -0.3546, 
-                descrizione_IT: "Un complesso futuristico che ospita un oceanografico, un museo della scienza e un planetario. Un simbolo moderno di Valencia.",
-                descrizione_ES: "Un complejo futurista que alberga un oceanográfico, un museo de las ciencias y un planetario. Un símbolo moderno de Valencia."
-            },
-            {
-                nome: "Mercato Centrale",
-                lat: 39.4727, 
-                lon: -0.3780, 
-                descrizione_IT: "Uno dei mercati più grandi d'Europa, noto per la sua architettura modernista e i prodotti freschi locali.",
-                descrizione_ES: "Uno de los mercados más grandes de Europa, conocido por su arquitectura modernista y sus productos frescos locales."
-            },
-            {
-                nome: "La Lonja de la Seda",
-                lat: 39.4740, 
-                lon: -0.3789, 
-                descrizione_IT: "Antica Borsa della Seta, capolavoro del Gotico valenciano e Patrimonio Mondiale dell'UNESCO.",
-                descrizione_ES: "Antigua Bolsa de la Seda, obra maestra del Gótico valenciano y Patrimonio Mundial de la UNESCO."
-            }
-        ];
-        
-        /**
-         * Funzione che genera dinamicamente le card per la sezione Monumenti.
-         */
-        function renderMonuments() {
-            const gridContainer = document.getElementById('monuments-grid');
-            if (!gridContainer) return; 
-            
-            // Pulisci il contenuto precedente prima di renderizzare
-            gridContainer.innerHTML = ''; 
-
-            // Determina la chiave della descrizione in base alla lingua attiva
-            const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
-
-            valenciaPOI.forEach(poi => {
-                
-                const description = poi[descriptionKey] || poi.descrizione_IT; // Fallback IT
-                
-                // Crea la struttura HTML della singola card
-                const cardHTML = `
-                    <div class="monument-card">
-                        <img 
-                            src="https://via.placeholder.com/600x400?text=${poi.nome.replace(/\s/g, '+')}" 
-                            alt="${poi.nome}" 
-                            class="card-image"
-                        >
-                        <div class="card-body">
-                            <h3>${poi.nome}</h3>
-                            <p>${description}</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Inserisce il codice HTML della card nel contenitore
-                gridContainer.innerHTML += cardHTML;
-            });
-        }
-        
-        // ======================================================================
-        // LOGICA DI BASE (Navigazione, Lingua)
-        // ======================================================================
-
-        /**
-         * Funzione che gestisce la visualizzazione delle diverse sezioni.
-         */
-        function changeSection(targetSectionId) {
-            // 1. Nascondi tutte le sezioni e mostra la target
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            const targetSection = document.getElementById(targetSectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // 2. Chiudi il menu
-            document.getElementById('menu-overlay').classList.remove('open');
-
-            // 3. Gestione Rendering Sezioni Speciali
-            if (targetSectionId === 'mappa') {
-                if (map === null) {
-                    initMap();
-                }
-                
-                // FIX: Forza Leaflet a ricalcolare le dimensioni
-                if (map !== null) {
-                    setTimeout(() => {
-                        map.invalidateSize(); 
-                        addMarkers(); 
-                    }, 10); 
-                }
-            } else if (targetSectionId === 'monumenti') {
-                // Genera le card dei monumenti
-                renderMonuments(); 
-            }
-        }
-
-        /**
-         * Funzione che imposta la lingua attiva e aggiorna i testi.
-         */
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // Aggiorna lo stato visivo delle bandiere
-            document.querySelectorAll('.flag').forEach(flag => {
-                flag.classList.remove('active');
-            });
-            document.querySelector(`.flag.${lang}`).classList.add('active');
-
-            // Logica di Traduzione (usando data-attributes)
-            document.querySelectorAll('[data-it]').forEach(element => {
-                const textIT = element.getAttribute('data-it');
-                const textES = element.getAttribute('data-es');
-                
-                // Aggiorna il testo dell'elemento in base alla lingua
-                element.textContent = lang === 'it' ? textIT : textES;
-            });
-            
-            // Aggiornamento del titolo in Header
-            document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
-            
-            // Aggiorna la griglia dei monumenti se la sezione è attiva (per cambiare le descrizioni)
-            if (document.getElementById('monumenti').classList.contains('active')) {
-                renderMonuments(); 
-            }
-            
-            // Ricarica i marker per aggiornare la lingua del popup (se la mappa è aperta)
-            if (map !== null && document.getElementById('mappa').classList.contains('active')) {
-                addMarkers(); 
-            }
-        }
-        
-        // Listener per i pulsanti del menu
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('menu-overlay').classList.add('open');
-        });
-
-        document.getElementById('menu-close').addEventListener('click', () => {
-            document.getElementById('menu-overlay').classList.remove('open');
-        });
-
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                const sectionId = e.target.dataset.section;
-                changeSection(sectionId);
-            });
-        });
-
-        document.querySelectorAll('.flag').forEach(flag => {
-            flag.addEventListener('click', (e) => {
-                const lang = e.target.dataset.lang;
-                setLanguage(lang);
-            });
-        });
-
-        // ======================================================================
-        // LOGICA LEAFLET (MAPPA E MARKER)
-        // ======================================================================
-        function initMap() {
-            if (map !== null) return;
-            
-            const VALENCIA_COORDS = [39.4699, -0.3763]; 
-            map = L.map('map-container').setView(VALENCIA_COORDS, 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        }
-
-        /**
-         * Funzione che itera sui dati e aggiunge/aggiorna i marker alla mappa.
-         */
-        function addMarkers() {
-            if (map === null) return;
-
-            // Rimuovi tutti i marker esistenti
-            map.eachLayer(layer => {
-                if (layer instanceof L.Marker) {
-                    map.removeLayer(layer);
-                }
-            });
-
-            // Iterazione sui POI e creazione dei Marker
-            valenciaPOI.forEach(poi => {
-                
-                // Determina quale descrizione usare in base alla lingua attiva
-                const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
-                const description = poi[descriptionKey] || poi.descrizione_IT; // Fallback IT
-                
-                // Contenuto HTML del popup
-                const popupContent = `
-                    <div style="font-family: 'Montserrat', sans-serif;">
-                        <strong>${poi.nome}</strong>
-                        <hr style="margin: 5px 0;">
-                        <p>${description}</p>
-                    </div>
-                `;
-
-                // Creazione del Marker e aggiunta del Popup
-                L.marker([poi.lat, poi.lon])
-                    .addTo(map)
-                    .bindPopup(popupContent);
-            });
-        }
-
-        // Inizializza la lingua e la sezione all'avvio
-        document.addEventListener('DOMContentLoaded', () => {
-            // Partiamo da 'home'
-            changeSection('home'); 
-            // Inizializza la lingua su 'it'
-            setLanguage('it');
-        });
-        
-    </script>
-</body>
-</html>
+.card-body p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0;
+}
+/* === FINE STILE MONUMENTI === */
