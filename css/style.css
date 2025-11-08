@@ -33,7 +33,7 @@
         #header {
             position: fixed;
             top: 0;
-            left: -15;
+            left: -15px;
             width: 100%;
             height: 40px;
             background-color: var(--colore-rosso);
