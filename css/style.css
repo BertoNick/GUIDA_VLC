@@ -28,7 +28,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
+    /* Aumenta il padding destro per forzare gli elementi a muoversi verso sinistra */
+    padding: 0 30px 0 15px; /* Passa da 15px a 30px sul lato destro */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
@@ -92,8 +93,8 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    position: absolute; 
-    right: 80px;
+    /* Rimuoviamo position: absolute; per farlo fluire normalmente */
+    /* Spostiamo tutto l'header-content nella sezione 2 */
 }
 .flag {
     width: 25px;
@@ -191,3 +192,112 @@ body {
     margin-bottom: 0;
 }
 /* === FINE STILE MONUMENTI === */
+/* === STILI PER TOC (TABLE OF CONTENTS) === */
+.section-toc {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-left: 5px solid var(--colore-blu); /* Bordo di accento */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.section-toc h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--colore-blu);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.toc-item a {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #555;
+    transition: background-color 0.2s;
+}
+
+.toc-item a:hover {
+    color: var(--colore-rosso);
+}
+
+/* Stile per l'elemento attivo evidenziato dall'Intersection Observer */
+.toc-item.active a {
+    font-weight: 700;
+    color: var(--colore-arancio); /* Colore per evidenziare l'elemento corrente */
+    background-color: #fff8e8; /* Sfondo leggero */
+    padding-left: 5px;
+    border-radius: 2px;
+}
+
+/* Stile per il contenitore principale del contenuto scorrevole */
+.scroll-content {
+    /* Aggiunge un bordo per separare visivamente il TOC dal contenuto */
+    border-left: 1px solid #eee; 
+    padding-left: 10px;
+}
+/* === STILI PER CHECKLIST INTERATTIVA === */
+.checklist-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checklist-item:hover {
+    background-color: #f9f9f9;
+}
+
+.checklist-label {
+    flex-grow: 1;
+    padding-left: 10px;
+    user-select: none;
+}
+
+/* Stile per l'elemento spuntato */
+.checklist-item input[type="checkbox"]:checked + .checklist-label {
+    text-decoration: line-through;
+    color: #999;
+    font-style: italic;
+}
+
+/* Stile per il pulsante di reset */
+#reset-checklist {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: var(--colore-rosso);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#reset-checklist:hover {
+    background-color: #c71e24; /* Tonalità più scura del rosso */
+}

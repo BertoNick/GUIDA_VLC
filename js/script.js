@@ -66,6 +66,90 @@
                 gridContainer.innerHTML += cardHTML;
             });
         }
+        // ======================================================================
+// DATI CHECKLIST
+// ======================================================================
+const checklistData = [
+    { it: "Passaporto/Carta d'identità", es: "Pasaporte/DNI" },
+    { it: "Prenotazioni (voli, hotel)", es: "Reservas (vuelos, hotel)" },
+    { it: "Assicurazione di viaggio", es: "Seguro de viaje" },
+    { it: "Adattatore di corrente", es: "Adaptador de corriente" },
+    { it: "Scarpe comode", es: "Zapatos cómodos" },
+    { it: "Abbigliamento per il clima mediterraneo", es: "Ropa para clima mediterráneo" },
+    { it: "Crema solare", es: "Crema solar" },
+    { it: "Farmaci personali", es: "Medicamentos personales" },
+    { it: "Contanti e carte di credito", es: "Efectivo y tarjetas" },
+];
+
+const STORAGE_KEY = 'valencia_checklist_status';
+
+/**
+ * Funzione che carica lo stato della checklist dal localStorage.
+ * Ritorna un oggetto { indice: true/false }.
+ */
+function loadChecklistStatus() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+}
+
+/**
+ * Funzione che salva lo stato della checklist nel localStorage.
+ */
+function saveChecklistStatus(status) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(status));
+}
+
+/**
+ * Genera l'HTML della checklist e gestisce l'interazione.
+ */
+function renderChecklist() {
+    const container = document.getElementById('checklist-list');
+    if (!container) return;
+
+    // 1. Carica lo stato salvato
+    let status = loadChecklistStatus();
+    container.innerHTML = '';
+
+    const listHTML = checklistData.map((item, index) => {
+        const itemText = currentLang === 'it' ? item.it : item.es;
+        const isChecked = status[index] === true;
+
+        return `
+            <label class="checklist-item" data-index="${index}">
+                <input type="checkbox" ${isChecked ? 'checked' : ''}>
+                <span class="checklist-label">${itemText}</span>
+            </label>
+        `;
+    }).join('');
+
+    container.innerHTML = listHTML;
+
+    // 2. Aggiungi i listener per la spunta
+    container.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+            const index = parseInt(e.target.closest('.checklist-item').dataset.index);
+            
+            // Aggiorna lo stato e salvalo
+            status[index] = e.target.checked;
+            saveChecklistStatus(status);
+            
+            // Forziamo il ricalcolo degli stili per linea sbarrata
+            e.target.closest('.checklist-item').classList.toggle('checked', e.target.checked);
+        });
+    });
+}
+
+/**
+ * Resetta la checklist (rimuove tutti gli stati da localStorage).
+ */
+function resetChecklist() {
+    if (confirm(currentLang === 'it' ? 'Sei sicuro di voler resettare tutta la checklist?' : '¿Estás seguro/a de querer restablecer toda la lista de verificación?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        // Rigenera la lista vuota
+        renderChecklist(); 
+        alert(currentLang === 'it' ? 'Checklist resettata con successo!' : '¡Lista de verificación restablecida con éxito!');
+    }
+}
         
         // ======================================================================
         // LOGICA DI BASE (Navigazione, Lingua)
@@ -103,6 +187,9 @@
             } else if (targetSectionId === 'punti-di-interesse') { // ID AGGIORNATO
                 // Genera le card dei punti di interesse
                 renderMonuments(); 
+            } else if (targetSectionId === 'checklist') {
+                // Genera la checklist all'apertura
+                renderChecklist();
             }
         }
 
@@ -297,4 +384,6 @@ function setupIntersectionObserver() {
             // **********************************************
             setupTocScrolling();
             setupIntersectionObserver();
+            // Listener per il pulsante di reset della checklist
+            document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
         });
