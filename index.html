@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida Valencia - Guía València</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+ 
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <header id="header">
+        <div id="title">Guida Valencia</div>
+        
+        <div id="language-switch">
+            <div class="flag it active" data-lang="it"></div>
+            <div class="flag es" data-lang="es"></div>
+        </div>
+
+        <div class="menu-icon" id="menu-toggle">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <div id="menu-overlay">
+        <span class="close-btn" id="menu-close">&times;</span>
+        <div class="menu-item" data-section="home">HOME</div>
+        <div class="menu-item" data-section="storia">STORIA</div>
+        <div class="menu-item" data-section="simboli">SIMBOLI</div> 
+        <div class="menu-item" data-section="punti-di-interesse">PUNTI DI INTERESSE</div> 
+        <div class="menu-item" data-section="cultura">CULTURA</div>
+        <div class="menu-item" data-section="mappa">MAPPA</div>
+        <div class="menu-item" data-section="checklist">CHECKLIST</div>
+    </div>
+
+    <main id="main-content">
+        
+        <section id="home" class="section active">
+            <h2 data-it="Benvenuto a Valencia! 🇪🇸" data-es="¡Bienvenido/a a Valencia! 🇪🇸">Benvenuto a Valencia! 🇪🇸</h2>
+            <p data-it="La tua guida al viaggio, sviluppata per imparare il frontend development." data-es="Tu guía de viaje, desarrollada para aprender desarrollo frontend.">La tua guida al viaggio, sviluppata per imparare il frontend development.</p>
+            
+            <div id="image-gallery-placeholder">
+                Spazio per la Galleria di Immagini
+            </div>
+            
+        </section>
+
+        <section id="mappa" class="section">
+            <h2 data-it="Mappa Interattiva 🗺️" data-es="Mapa Interactivo 🗺️">Mappa Interattiva 🗺️</h2>
+            <div id="map-container"></div>
+        </section>
+
+        <section id="storia" class="section">
+            <h2 data-it="Storia di Valencia" data-es="Historia de Valencia">Storia di Valencia</h2>
+    
+            <div id="toc-storia" class="section-toc">
+                <h3 data-it="Contenuti" data-es="Contenidos">Contenuti</h3>
+                <ul class="toc-list" data-section="storia">
+                    <li class="toc-item" data-target="storia-fondazione"><a href="#storia-fondazione" data-it="Fondazione" data-es="Fundación">Fondazione</a></li>
+                    <li class="toc-item" data-target="storia-romana"><a href="#storia-romana" data-it="Epoca romana" data-es="Época romana">Epoca romana</a></li>
+                    <li class="toc-item" data-target="storia-araba"><a href="#storia-araba" data-it="Balansiya, epoca araba" data-es="Balansiya, época árabe">Balansiya, epoca araba</a></li>
+                    <li class="toc-item" data-target="storia-siglo-de-oro"><a href="#storia-siglo-de-oro" data-it="Siglo de oro" data-es="Siglo de oro">Siglo de oro</a></li>
+                    <li class="toc-item" data-target="storia-moderna"><a href="#storia-moderna" data-it="Epoca moderna" data-es="Época moderna">Epoca moderna</a></li>
+                    <li class="toc-item" data-target="storia-novecento"><a href="#storia-novecento" data-it="'900" data-es="'900">'900</a></li>
+                    <li class="toc-item" data-target="storia-contemporanea"><a href="#storia-contemporanea" data-it="Epoca contemporanea" data-es="Época contemporánea">Epoca contemporanea</a></li>
+                </ul>
+            </div>
+    
+            <div class="scroll-content">
+                <h3 id="storia-fondazione" data-it="Fondazione" data-es="Fundación">Fondazione</h3>
+                <p>[Inserisci qui il contenuto sulla Fondazione]</p>
+        
+                <h3 id="storia-romana" data-it="Epoca romana" data-es="Época romana">Epoca romana</h3>
+                <p>[Inserisci qui il contenuto sull'Epoca romana]</p>
+        
+                <h3 id="storia-araba" data-it="Balansiya, epoca araba" data-es="Balansiya, época árabe">Balansiya, epoca araba</h3>
+                <p>[Inserisci qui il contenuto sull'Epoca araba]</p>
+        
+                <h3 id="storia-siglo-de-oro" data-it="Siglo de oro" data-es="Siglo de oro">Siglo de oro</h3>
+                <p>[Inserisci qui il contenuto sul Siglo de oro]</p>
+
+                <h3 id="storia-moderna" data-it="Epoca moderna" data-es="Época moderna">Epoca moderna</h3>
+                <p>[Inserisci qui il contenuto sull'Epoca moderna]</p>
+
+                <h3 id="storia-novecento" data-it="'900" data-es="'900">'900</h3>
+                <p>[Inserisci qui il contenuto sul '900]</p>
+
+                <h3 id="storia-contemporanea" data-it="Epoca contemporanea" data-es="Época contemporánea">Epoca contemporanea</h3>
+                <p>[Inserisci qui il contenuto sull'Epoca contemporanea]</p>
+                </div>
+        </section>
+
+        <section id="simboli" class="section">
+            <h2 data-it="Simboli di Valencia" data-es="Símbolos de Valencia">Simboli di Valencia</h2>
+    
+            <div id="toc-simboli" class="section-toc">
+                <h3 data-it="Contenuti" data-es="Contenidos">Contenuti</h3>
+                <ul class="toc-list" data-section="simboli">
+                    <li class="toc-item" data-target="simboli-simbolo"><a href="#simboli-simbolo" data-it="Simbolo principale" data-es="Símbolo principal">Simbolo principale</a></li>
+                    <li class="toc-item" data-target="simboli-rat-penat"><a href="#simboli-rat-penat" data-it="Rat penat" data-es="Rat penat">Rat penat</a></li>
+                    <li class="toc-item" data-target="simboli-arance"><a href="#simboli-arance" data-it="Le Arance" data-es="Las Naranjas">Le Arance</a></li>
+                    <li class="toc-item" data-target="simboli-masclet"><a href="#simboli-masclet" data-it="Masclet" data-es="Masclet">Masclet</a></li>
+                </ul>
+            </div>
+    
+            <div class="scroll-content">
+                <h3 id="simboli-simbolo" data-it="Simbolo principale" data-es="Símbolo principal">Simbolo principale</h3>
+                <p>[Contenuto]</p>
+        
+                <h3 id="simboli-rat-penat" data-it="Rat penat" data-es="Rat penat">Rat penat</h3>
+                <p>[Contenuto]</p>
+        
+                <h3 id="simboli-arance" data-it="Le Arance" data-es="Las Naranjas">Le Arance</h3>
+                <p>[Contenuto]</p>
+        
+                <h3 id="simboli-masclet" data-it="Masclet" data-es="Masclet">Masclet</h3>
+                <p>[Contenuto]</p>
+            </div>
+        </section>
+
+        <section id="cultura" class="section">
+            <h2 data-it="Tradizioni e Gastronomia" data-es="Tradiciones y Gastronomía">Tradizioni e Gastronomia</h2>
+    
+            <div id="toc-cultura" class="section-toc">
+                <h3 data-it="Contenuti" data-es="Contenidos">Contenuti</h3>
+                <ul class="toc-list" data-section="cultura">
+                    <li class="toc-item" data-target="cultura-gastronomia"><a href="#cultura-gastronomia" data-it="Gastronomia" data-es="Gastronomía">Gastronomia</a></li>
+                    <li class="toc-item" data-target="cultura-feste"><a href="#cultura-feste" data-it="Feste e tradizioni" data-es="Fiestas y tradiciones">Feste e tradizioni</a></li>
+                </ul>
+            </div>
+    
+            <div class="scroll-content">
+                <h3 id="cultura-gastronomia" data-it="Gastronomia" data-es="Gastronomía">Gastronomia</h3>
+                <p>[Contenuto]</p>
+        
+                <h3 id="cultura-feste" data-it="Feste e tradizioni" data-es="Fiestas y tradiciones">Feste e tradizioni</h3>
+                <p>[Contenuto]</p>
+            </div>
+        </section>
+
+        <section id="checklist" class="section"><h2 data-it="Checklist documenti&bagagli" data-es="Lista de Verificación documentos y maletas">Checklist & Documenti</h2></section>
+
+    </main>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script src="./js/script.js"></script>
+
+</body>
+</html>
