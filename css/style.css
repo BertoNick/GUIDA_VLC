@@ -20,8 +20,8 @@ body {
 #header {
     position: fixed;
     top: 0;
-    left: -15px;
-    width: 100%;
+    left: 0px;
+    width: 98%;
     height: 40px;
     background-color: var(--colore-rosso);
     color: white;
