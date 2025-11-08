@@ -29,13 +29,13 @@
             --colore-arancio: #ff8800; /* Arancio per accenti */
         }
 
-        /* HEADER FISSO (60px di altezza) */
+        /* HEADER FISSO (40px di altezza) */
         #header {
             position: fixed;
             top: 0;
-            left: 0;
+            left: -15;
             width: 100%;
-            height: 60px;
+            height: 40px;
             background-color: var(--colore-rosso);
             color: white;
             display: flex;
@@ -73,7 +73,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgba(218, 18, 26, 1);
             color: white;
             display: none; 
             flex-direction: column;
