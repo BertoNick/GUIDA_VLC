@@ -3,34 +3,189 @@ let currentLang = 'it';
 let map = null;
 
 // ======================================================================
-// DATI DEI PUNTI DI INTERESSE (POI)
+// CONFIGURAZIONE ICONE PER TIPOLOGIA (CON EMOJI E COLORI)
+// ======================================================================
+const poiIcons = {
+    architettura: { icon: "📐", color: "#3498db" },
+    monumento: { icon: "🏛️", color: "#e67e22" },
+    aeroporto: { icon: "✈️", color: "#95a5a6" },
+    sport: { icon: "🏟️", color: "#d35400" },
+    natura: { icon: "🌳", color: "#27ae60" },
+    default: { icon: "📍", color: "#34495e" }
+};
+
+function createCustomIcon(tipologia) {
+    const config = poiIcons[tipologia] || poiIcons.default;
+    return L.divIcon({
+        html: `<div style="background-color: white; border: 2px solid ${config.color}; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${config.icon}</div>`,
+        className: '',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -16]
+    });
+}
+
+// ======================================================================
+// DATI DEI PUNTI DI INTERESSE (POI) - TESTI INTEGRALI RIPRISTINATI
 // ======================================================================
 const valenciaPOI = [
     {
         nome: "Città delle Arti e delle Scienze",
-        lat: 39.4627,
-        lon: -0.3546,
-        descrizione_IT: "Un complesso futuristico che ospita un oceanografico, un museo della scienza e un planetario. Un simbolo moderno di Valencia.",
-        descrizione_ES: "Un complejo futurista que alberga un oceanográfico, un museo de las ciencias y un planetario. Un símbolo moderno de Valencia."
+        lat: 39.45617, 
+        lon: -0.3521,
+        immagine: "img/cac.jpg",
+        tipologia: "architettura",    
+        descrizione_IT: "Un complesso architettonico di stile neofuturista progettato da Santiago Calatrava e inaugurato nel 1998. È il simbolo contemporaneo della città.",
+        descrizione_ES: "Un complejo arquitectónico de estilo neofuturista diseñado por Santiago Calatrava e inaugurado en 1998. Es el símbolo contemporáneo de la ciudad."
     },
     {
         nome: "Mercato Centrale",
-        lat: 39.4727,
-        lon: -0.3780,
-        descrizione_IT: "Uno dei mercati più grandi d'Europa, noto per la sua architettura modernista e i prodotti freschi locali.",
-        descrizione_ES: "Uno de los mercados más grandes de Europa, conocido por su arquitectura modernista y sus productos frescos locales."
+        lat: 39.47407, 
+        lon: -0.37907,
+        immagine: "img/mercato.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Uno dei mercati più grandi d'Europa, costruito nel 1914 e noto per la sua architettura modernista e i prodotti freschi locali.",
+        descrizione_ES: "Uno de los mercados más grandes de Europa, construido en 1914 y conocido por su arquitectura modernista y sus productos frescos locales."
     },
     {
         nome: "La Lonja de la Seda",
-        lat: 39.4740,
-        lon: -0.3789,
-        descrizione_IT: "Antica Borsa della Seta, capolavoro del Gotico valenciano e Patrimonio Mondiale dell'UNESCO.",
-        descrizione_ES: "Antigua Bolsa de la Seda, obra maestra del Gótico valenciano y Patrimonio Mundial de la UNESCO."
+        lat: 39.47459, 
+        lon: -0.37830,
+        immagine: "img/lonja.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Antica Borsa della Seta, costruita nel secolo XV, capolavoro del gotico civile valenciano e Patrimonio Mondiale dell'UNESCO.",
+        descrizione_ES: "Antigua Bolsa de la Seda, construida en el siglo XV, obra maestra del gótico civil valenciano y Patrimonio de la Humanidad de la UNESCO."
+    },
+    {
+        nome: "Aeroporto",
+        lat: 39.49196, 
+        lon: -0.48223,
+        immagine: "img/aeroporto.jpg",
+        tipologia: "aeroporto",
+        descrizione_IT: "Aeroporto internazionale di Valencia-Manises.",
+        descrizione_ES: "Aeropuerto Internacional de Valencia-Manises."
+    },
+    {
+        nome: "Cattedrale",
+        lat: 39.47536, 
+        lon: -0.37548,
+        immagine: "img/cattedrale.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "La Cattedrale di Valencia, conosciuta come la Seu, è un tempio prevalentemente in stile gotico valenciano consacrato nel 1238, che custodisce tesori come il Santo Graal e importanti dipinti del Quattrocento. La sua importanza storica risiede sia nella fusione di stili architettonici, sia nell'essere stata elevata a sede metropolitana sotto l'influenza della famiglia Borgia.",
+        descrizione_ES: "La Catedral de Valencia, conocida como la Seu, es un templo de predominio gótico valenciano consagrado en 1238 que alberga tesoros como el Santo Cáliz y destacadas pinturas del Quattrocento. Su importancia histórica radica tanto en su mezcla de estilos arquitectónicos como en haber sido elevada a sede metropolitana bajo la influencia de la familia Borja.."
+    },
+    {
+        nome: "Piazza dell’Ayuntamiento",
+        lat: 39.46969,
+        lon: -0.37641,
+        immagine: "img/ayuntamiento.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "La piazza dell’Ayuntamiento è uno degli spazi più scenografici e vibranti di Valencia, circondata da edifici monumentali di grande pregio architettonico come il Municipio stesso e il palazzo delle Poste (Correos). È il cuore pulsante della città e il palcoscenico principale delle famose mascletà, dove il fragore e la polvere da sparo diventano protagonisti assoluti durante la festa delle Fallas.",
+        descrizione_ES: "La Plaza del Ayuntamiento es uno de los espacios más escénicos y vibrantes de Valencia, rodeada de edificios monumentales de gran valor arquitectónico como el propio Ayuntamiento y el edificio de Correos. Es el corazón social de la ciudad y el escenario principal de las famosas mascletás, donde el estruendo y la pólvora se convierten en protagonistas durante las Fallas."
+    },
+    {
+        nome: "Edificio del Reloj - tinglados",
+        lat: 39.46017, 
+        lon: -0.3318,
+        immagine: "img/reloj.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Costruito nel 1916, l'Edificio del Reloj è un elegante esempio di architettura eclettica con influenze francesi, nato originariamente come stazione marittima. Situato all'ingresso del porto accanto ai Tinglados —antichi magazzini modernisti decorati con mosaici di azulejos—, questo complesso architettonico simboleggia lo splendore commerciale di Valencia ed è oggi un importante centro culturale affacciato sul Mediterraneo.",
+        descrizione_ES: "Construido en 1916, el Edificio del Reloj es un elegante ejemplo de arquitectura ecléctica con influencias francesas que servía originalmente como estación marítima. Presidiendo la entrada al puerto junto a los Tinglados —antiguos almacenes modernistas decorados con mosaicos de azulejos—, este conjunto arquitectónico simboliza el esplendor comercial de Valencia y es hoy un centro cultural clave frente al Mediterráneo."
+    },
+    {
+        nome: "Veles e Vents",
+        lat: 39.46102, 
+        lon: -0.32409,
+        immagine: "img/veles.jpg",
+        tipologia: "architettura",
+        descrizione_IT: "Inaugurato nel 2006, l'edificio Veles e Vents è un edificio minimalista, progettato originariamente per l'America's Cup. Situato nella Marina di Valencia, questo iconico belvedere dalle ampie terrazze bianche è stato anche un punto di osservazione privilegiato durante gli anni in cui il circuito cittadino del GP di Formula 1 attraversava le strade del porto, diventando il simbolo della modernità marittima della città.",
+        descrizione_ES: "Inaugurado en 2006, el edificio Veles e Vents es una obra minimalista, diseñada originalmente para la America's Cup. Situado en la Marina de Valencia, este icónico mirador de grandes terrazas blancas fue también un punto de observación privilegiado durante los años en que el circuito urbano del GP de Fórmula 1 recorría las calles del puerto, convirtiéndose en el símbolo de la modernidad marítima de la ciudad.."
+    },
+    {
+        nome: "Stadio Mestalla",
+        lat: 39.47488,
+        lon: -0.35847,
+        immagine: "img/mestalla.jpg",
+        tipologia: "sport",
+        descrizione_IT: "Inaugurato nel 1923, lo Stadio di Mestalla è il più antico della Liga spagnola in Prima Divisione e si distingue per la sua spettacolare architettura verticale, con gradinate ripidissime che sembrano cadere sul campo creando un'atmosfera unica. Mentre lo storico impianto continua a battere con la passione del Valencia CF, il progetto del 'Nuevo Mestalla' rimane una sagoma incompiuta all'ingresso della città, in attesa di essere completato dopo anni di paralisi dei lavori.",
+        descrizione_ES: "Inaugurado en 1923, el Estadio de Mestalla es el más antiguo de la Liga española en Primera División y destaca por su espectacular arquitectura vertical, con gradas que parecen caer sobre el césped creando una atmósfera única. Mientras el histórico recinto sigue latiendo con la pasión del Valencia CF, el proyecto del 'Nuevo Mestalla' permanece como una silueta inacabada en la entrada de la ciudad, esperando a ser completado tras años de paralización de las obras."
+    },
+    {
+        nome: "Roig Arena",
+        lat: 39.449186, 
+        lon: -0.364241,
+        immagine: "img/roig.jpg",
+        tipologia: "sport",
+        descrizione_IT: "Inaugurato nel 2025, il Roig Arena è un avanguardistico spazio polifunzionale diventato uno dei centri per eventi più avanzati d'Europa. Con una capacità fino a 20.000 spettatori, questo colossale progetto è stato finanziato interamente da Juan Roig (proprietario di Mercadona) con un investimento di 400 milioni di euro, dotando la città di una sede d'élite per il basket e per i grandi tour internazionali..",
+        descrizione_ES: "Inaugurado en 2025, el Roig Arena es un vanguardista recinto multiusos que se ha convertido en uno de los centros de eventos más avanzados de Europa. Con capacidad para hasta 20.000 espectadores, este colosal proyecto ha sido financiado íntegramente por Juan Roig (propietario de Mercadona) con una inversión de 400 millones de euros, dotando a la ciudad de una sede de élite para el baloncesto y grandes giras internacionales."
+    },
+    {
+        nome: "Jardines del Real",
+        lat: 39.47789,
+        lon: -0.36699,
+        immagine: "img/viveros.jpg",
+        tipologia: "natura",
+        descrizione_IT: "Conosciuti popolarmente come Viveros, i Jardines del Real occupano il sito dove anticamente sorgeva il maestoso Palazzo Reale, la residenza dei re della Corona d'Aragona che fu distrutta nel 1810 durante la Guerra d'Indipendenza. Oggi, questo parco è un'oasi di natura e cultura che conserva i resti archeologici dell'antico palazzo, unendo percorsi romantici, fontane e una grande varietà botanica nel cuore di Valencia.",
+        descrizione_ES: "Conocidos popularmente como Viveros, los Jardines del Real ocupan el solar donde antiguamente se alzaba el majestuoso Palacio Real, la residencia de los reyes de la Corona de Aragón que fue destruida en 1810 durante la Guerra de la Independencia. Hoy en día, este parque es un oasis de naturaleza y cultura que conserva restos arqueológicos del antiguo palacio, combinando paseos románticos, fuentes y una gran variedad botánica en el corazón de Valencia."
+    },
+    {
+        nome: "Palacio de la Exposición",
+        lat: 39.47333, 
+        lon: -0.36233,
+        immagine: "img/exposicion.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Costruito in soli settanta giorni per l'Esposizione Regionale del 1909, il Palacio de la Exposición è uno splendido esempio di stile neogotico valenciano. Progettato da Francisco Mora, l'edificio ricrea lo splendore del passato medievale della città con una squisita decorazione di ceramiche, marmi e vetrate, rimanendo oggi uno degli spazi più eleganti per ricevimenti ed eventi istituzionali.",
+        descrizione_ES: "Construido en apenas setenta días para la Exposición Regional de 1909, el Palacio de la Exposición es una deslumbrante muestra del estilo neogótico valenciano. Diseñado por Francisco Mora, el edificio recrea el esplendor del pasado medieval de la ciudad con una exquisita decoración de cerámica, mármol y vidrieras, permaneciendo hoy como uno de los espacios más elegantes para recepciones y eventos institucionales."
+    },
+    {
+        nome: "Torres de Serrano",
+        lat: 39.47938, 
+        lon: -0.37597,
+        immagine: "img/serranos.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Le Torri di Serrano e il loro ponte omonimo, costruiti tra la fine del XIV e la metà del XVI secolo, formano uno dei complessi monumentali più iconici di Valencia. Mentre il ponte in pietra (1518) fungeva da ingresso nobile sopra il fiume Turia, le torri —capolavoro del gotico valenciano— si ergevano come la porta principale delle mura; oggi, questo insieme non è solo un belvedere eccezionale, ma anche lo scenario in cui ogni anno si celebra 'la Crida' per dare inizio alla festa delle Fallas.",
+        descrizione_ES: "Las Torres de Serranos y su puente homónimo, construidos entre finales del siglo XIV y mediados del XVI, forman uno de los conjuntos monumentales más icónicos de Valencia. Mientras el puente de piedra (1518) servía como entrada noble sobre el río Turia, las torres —obra maestra del gótico valenciano— se alzaban como la puerta principal de la muralla; hoy, este conjunto no solo es un mirador excepcional, sino también el escenario donde cada año se celebra 'la Crida' para dar comienzo a las Fallas."
+    },
+    {
+        nome: "Torri di Quart",
+        lat: 39.47597,
+        lon: -0.38385,
+        immagine: "img/quart.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Le Torri di Quart, costruite nel XV secolo in un imponente stile gotico tardo, erano la porta d'ingresso per chi proveniva dalla Castiglia. A differenza di quelle di Serranos, la loro facciata mostra una bellezza più austera e fiera, conservando ancora i segni e le cicatrici delle cannonate subite durante l'assedio delle truppe napoleoniche nella Guerra d'Indipendenza (1808), il che le rende una testimonianza viva della resistenza di Valencia.",
+        descrizione_ES: "Las Torres de Quart, construidas en el siglo XV con un imponente estilo gótico tardío, eran la puerta de entrada para quienes venían de Castilla. A diferencia de las de Serranos, su fachada muestra una belleza más austera y guerrera, conservando todavía las huellas y cicatrices de los cañonazos sufridos durante el asedio de las tropas napoleónicas en la Guerra de la Independencia (1808), lo que las convierte en un testimonio vivo de la resistencia de Valencia."
+    },
+    {
+        nome: "Giardino Botanico",
+        lat: 39.47555, 
+        lon: -0.38636,
+        immagine: "img/botanico.jpg",
+        tipologia: "natura",
+        descrizione_IT: "Fondato originariamente nel 1567 e trasferito nella sua posizione attuale (l'Huerto de Tramoyeres) nel 1802, il Jardín Botánico dell'Università di Valencia è uno dei più antichi e importanti d'Europa. Questa oasi scientifica e paesaggistica si distingue per la sua storica collezione di palme, le sue serre in ferro del XIX secolo e il suo instancabile lavoro nella conservazione della biodiversità mediterranea, rappresentando un punto di riferimento internazionale nella ricerca botanica.",
+        descrizione_ES: "Fundado originalmente en 1567 y trasladado a su ubicación actual (el Huerto de Tramoyeres) en 1802, el Jardín Botánico de la Universidad de Valencia es uno de los más antiguos e importantes de Europa. Este oasis científico y paisajístico destaca por su histórica colección de palmeras, sus invernaderos de hierro del siglo XIX y su incansable labor en la conservación de la biodiversidad mediterránea, siendo un referente internacional en la investigación botánica."
+    },
+    {
+        nome: "Albufera",
+        lat: 39.33488, 
+        lon: -0.34642,
+        immagine: "img/albufera.jpg",
+        tipologia: "natura",
+        descrizione_IT: "Situata a pochi chilometri dalla città, l'Albufera è il lago d'acqua dolce più grande di Spagna e un ecosistema dal valore incalcolabile. Questo paesaggio di risaie e canali è lo scenario del celebre romanzo naturalista 'Fango e canneti' (Cañas y Barro), dove Vicente Blasco Ibáñez —spesso considerato l'equivalente spagnolo di Giovanni Verga per il suo crudo realismo sociale— ritrae la lotta dell'uomo contro un ambiente ostile. L'opera trascende la narrativa regionale per diventare un potente simbolo del determinismo: il fango che dà vita al riso è lo stesso che intrappola e consuma le ambizioni dei personaggi, trasformando questo 'specchio' d'acqua in una testimonianza viva della dura storia della Valencia rurale.",
+        descrizione_ES: "Situada a escasos kilómetros de la ciudad, la Albufera es el lago de agua dulce más grande de España y un ecosistema de valor incalculable. Este paisaje de arrozales y canales es el escenario de la célebre novela naturalista 'Cañas y Barro', donde Vicente Blasco Ibáñez —considerado a menudo el equivalente español de Giovanni Verga por su crudo realismo social— retrata la lucha del hombre contra un entorno hostil. La obra trasciende la narrativa regional para convertirse en un poderoso símbolo del determinismo: el barro que da vida al arroz es el mismo que atrapa y consume las ambiciones de sus personajes, convirtiendo este 'espejo' de agua en un testamento vivo de la dura historia de la Valencia rural."
+    },
+    {
+        nome: "Puente de la solidaridad",
+        lat: 39.43851,
+        lon: -0.39354,
+        immagine: "img/solidaridad.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Il 29 ottobre 2024, Valencia è stata colpita dalla più devastante alluvione della sua storia, una catastrofe che ha fatto esondare i torrenti e sommerso decine di comuni, lasciando un tragico bilancio di oltre 200 vittime e danni incalcolabili. Nel mezzo del dolore, la passerella pedonale che unisce il quartiere di San Marcelino ai paesi del sud è stata ribattezzata Puente de la Solidaridad, in onore dei migliaia di volontari che, con pale e stivali di gomma, l'hanno attraversata a piedi ogni giorno per aiutare i propri vicini a spalare il fango e a ricostruire le proprie vite.",
+        descrizione_ES: "El 29 de octubre de 2024, Valencia sufrió la DANA más devastadora de su historia, una catástrofe que desbordó barrancos y anegó decenas de municipios, dejando un trágico balance de más de 200 víctimas y daños incalculables. En medio del dolor, la pasarela peatonal que une el barrio de San Marcelino con los pueblos del sur fue rebautizada como Puente de la Solidaridad, en honor a los miles de voluntarios que, con palas y botas de agua, cruzaron a pie cada día para ayudar a sus vecinos a limpiar el barro y reconstruir sus vidas."
     }
 ];
 
 // ======================================================================
-// RENDERING MONUMENTI
+// RENDERING MONUMENTI (CARD)
 // ======================================================================
 function renderMonuments() {
     const gridContainer = document.getElementById('punti-di-interesse-grid');
@@ -43,8 +198,11 @@ function renderMonuments() {
         const description = poi[descriptionKey] || poi.descrizione_IT;
         const cardHTML = `
             <div class="monument-card">
-                <img src="https://via.placeholder.com/600x400?text=${poi.nome.replace(/\s/g, '+')}" alt="${poi.nome}" class="card-image">
+                <img src="${poi.immagine}" alt="${poi.nome}" class="card-image" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+In+Arrivo'">
                 <div class="card-body">
+                    <small style="color: ${poiIcons[poi.tipologia]?.color || '#e67e22'}; font-weight: bold; text-transform: uppercase;">
+                        ${poiIcons[poi.tipologia]?.icon || ''} ${poi.tipologia}
+                    </small>
                     <h3>${poi.nome}</h3>
                     <p>${description}</p>
                 </div>
@@ -103,14 +261,14 @@ function renderChecklist() {
 }
 
 function resetChecklist() {
-    if (confirm(currentLang === 'it' ? 'Sei sicuro di voler resettare tutta la checklist?' : '¿Estás seguro/a de querer restablecer toda la lista?')) {
+    if (confirm(currentLang === 'it' ? 'Resettare la lista?' : '¿Restablecer lista?')) {
         localStorage.removeItem(STORAGE_KEY);
         renderChecklist();
     }
 }
 
 // ======================================================================
-// LOGICA DI BASE (Navigazione, Lingua)
+// LOGICA DI BASE (NAVIGAZIONE E LINGUA)
 // ======================================================================
 function changeSection(targetSectionId) {
     document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
@@ -144,31 +302,48 @@ function setLanguage(lang) {
     });
     
     document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
+    
     if (document.getElementById('punti-di-interesse').classList.contains('active')) renderMonuments();
+    if (document.getElementById('mappa').classList.contains('active')) addMarkers();
+    if (document.getElementById('checklist').classList.contains('active')) renderChecklist();
 }
 
 // ======================================================================
-// MAPPA
+// MAPPA E MARKER
 // ======================================================================
 function initMap() {
     if (map !== null) return;
     map = L.map('map-container').setView([39.4699, -0.3763], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+        attribution: '© OpenStreetMap'
     }).addTo(map);
 }
 
 function addMarkers() {
     if (map === null) return;
     map.eachLayer(layer => { if (layer instanceof L.Marker) map.removeLayer(layer); });
+
     valenciaPOI.forEach(poi => {
         const desc = currentLang === 'it' ? poi.descrizione_IT : poi.descrizione_ES;
-        L.marker([poi.lat, poi.lon]).addTo(map).bindPopup(`<b>${poi.nome}</b><br>${desc}`);
+        // Fix link Google Maps navigazione
+        const gMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${poi.lat},${poi.lon}`;
+
+        L.marker([poi.lat, poi.lon], { icon: createCustomIcon(poi.tipologia) })
+            .addTo(map)
+            .bindPopup(`
+                <div style="text-align: center; min-width: 180px; font-family: sans-serif;">
+                    <b style="font-size: 1.1rem;">${poi.nome}</b><br>
+                    <p style="font-size: 0.9rem; margin: 8px 0; color: #555;">${desc.substring(0, 80)}...</p>
+                    <a href="${gMapsUrl}" target="_blank" 
+                       style="display: block; background: #e67e22; color: white; text-decoration: none; padding: 8px; border-radius: 4px; font-weight: bold; margin-top: 5px;">
+                       📍 Naviga con Google Maps
+                    </a>
+                </div>`);
     });
 }
 
 // ======================================================================
-// TOC SCROLLING
+// INIZIALIZZAZIONE (DOM CONTENT LOADED)
 // ======================================================================
 function setupTocScrolling() {
     document.querySelectorAll('.section-toc .toc-item a').forEach(anchor => {
@@ -183,37 +358,20 @@ function setupTocScrolling() {
     });
 }
 
-// ======================================================================
-// INIZIALIZZAZIONE (DOM CONTENT LOADED)
-// ======================================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Listener Menu Hamburger
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-        document.getElementById('menu-overlay').classList.add('open');
-    });
-
-    document.getElementById('menu-close').addEventListener('click', () => {
-        document.getElementById('menu-overlay').classList.remove('open');
-    });
-
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('menu-overlay').classList.add('open'));
+    document.getElementById('menu-close').addEventListener('click', () => document.getElementById('menu-overlay').classList.remove('open'));
+    
     document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            const sectionId = e.target.dataset.section;
-            changeSection(sectionId);
-        });
+        item.addEventListener('click', (e) => changeSection(e.target.dataset.section));
     });
 
-    // Listener Lingua
     document.querySelectorAll('.flag').forEach(flag => {
-        flag.addEventListener('click', (e) => {
-            setLanguage(e.target.dataset.lang);
-        });
+        flag.addEventListener('click', (e) => setLanguage(e.target.dataset.lang));
     });
 
-    // Listener Reset Checklist
     document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
 
-    // Setup iniziale
     setupTocScrolling();
     setLanguage('it');
     changeSection('home');
