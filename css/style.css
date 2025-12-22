@@ -1,26 +1,25 @@
-
 /* CSS GLOBALE E RESET */
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding-top: 60px; /* Spazio per l'Header fisso */
-    background-color: #f4f7f6; /* Sfondo leggero */
+    background-color: #f4f7f6; 
     color: #333;
 }
 
-/* PALETTE COLORI (ISPIRATA ALLA SENYERA + ARANCIONE) */
+/* PALETTE COLORI */
 :root {
-    --colore-rosso: #e73238; /* Rosso Senyera */
-    --colore-giallo: #ffc400; /* Giallo Senyera */
-    --colore-blu: #007bff;   /* Blu per contrasto / mare */
-    --colore-arancio: #ff8800; /* Arancio per accenti */
+    --colore-rosso: #e73238; 
+    --colore-giallo: #ffc400; 
+    --colore-blu: #007bff;   
+    --colore-arancio: #ff8800; 
 }
 
-/* HEADER FISSO (40px di altezza) */
+/* HEADER FISSO */
 #header {
     position: fixed;
     top: 0;
-    left: 0; /* Impostiamo a 0 per semplicità, useremo padding */
+    left: 0;
     width: 100%;
     height: 40px;
     background-color: var(--colore-rosso);
@@ -28,7 +27,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Nuovo padding: Allontana la scritta da sinistra (20px) e sposta tutto il contenuto a sinistra (20px) */
     padding: 0 20px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -39,21 +37,19 @@ body {
     font-weight: 700;
 }
 
-/* MENU HAMBURGER (Icona e Stile) */
-.menu-icon {
-    margin-right: 30px;
-    cursor: pointer;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-/* CONTROLLI DI DESTRA */
+/* CONTROLLI DI DESTRA E MENU */
 .right-controls {
     display: flex;
     align-items: center;
-    gap: 15px; /* Questo gestisce la distanza tra le bandiere e l'icona menu (15px) */
+    gap: 15px;
+}
+
+.menu-icon {
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .menu-icon div {
@@ -70,7 +66,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(218, 18, 26, 1);
+    background-color: rgba(231, 50, 56, 0.98);
     color: white;
     display: none; 
     flex-direction: column;
@@ -78,166 +74,187 @@ body {
     justify-content: center;
     z-index: 2000;
 }
+
 #menu-overlay.open {
     display: flex; 
 }
+
 .close-btn {
     position: absolute;
     top: 20px;
     right: 20px;
-    font-size: 2rem;
+    font-size: 2.5rem;
     cursor: pointer;
 }
+
 .menu-item {
-    padding: 15px 0;
-    font-size: 1.5rem;
+    padding: 20px 0;
+    font-size: 1.8rem;
     cursor: pointer;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    width: 80%;
+    width: 70%;
     text-align: center;
+    transition: color 0.3s;
+}
+
+.menu-item:hover {
+    color: var(--colore-giallo);
 }
 
 /* SWITCH LINGUA */
-#language-switch {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* Rimuoviamo qualsiasi proprietà di posizionamento/margine aggiuntiva per affidarci al Flexbox */
-}
-
 .flag {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 2px solid white;
     cursor: pointer;
     background-size: cover;
     background-position: center;
+    transition: transform 0.2s;
 }
+
+.flag:hover { transform: scale(1.1); }
 .flag.it { background-image: url('https://flagcdn.com/it.svg'); }
 .flag.es { background-image: url('https://flagcdn.com/es.svg'); }
-.flag.active { border-color: var(--colore-giallo); } 
+.flag.active { border-color: var(--colore-giallo); box-shadow: 0 0 8px var(--colore-giallo); } 
 
-/* CONTENUTO PRINCIPALE (per le sezioni) */
+/* CONTENUTO PRINCIPALE */
 #main-content {
-    padding: 15px;
-}
-.section {
-    display: none; 
-}
-.section.active {
-    display: block; 
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* STILE SPECIFICO PER LA MAPPA (PIÙ RESPONSIVE) */
-#map-container {
-    height: 70vh; /* Usa il 70% dell'altezza dello schermo dello studente */
-    min-height: 350px; /* Ma non meno di 350px */
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.5s; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* STILE FOTO HOMEPAGE */
+.home-hero-container {
     width: 100%;
-    margin-top: 10px;
-    border-radius: 8px; /* Un tocco estetico per arrotondare gli angoli della mappa */
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    margin: 25px 0;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* STILE PLACEHOLDER GALLERIA */
-#image-gallery-placeholder {
-    height: 250px;  
-    background-color: #e9ecef;  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    margin-top: 20px;  
-    color: #6c757d;  
-    border-radius: 8px;
-    font-style: italic;
+.home-image {
+    width: 100%;
+    height: 400px; /* Bella alta per la home */
+    object-fit: cover;
+    display: block;
 }
 
-/* === STILE PER LA GRIGLIA DI MONUMENTI (CORRETTO) === */
+/* MAPPA */
+#map-container {
+    height: 70vh;
+    min-height: 400px;
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* === GRIGLIA PUNTI DI INTERESSE === */
 #punti-di-interesse-grid {
     display: grid;
-    gap: 15px; /* Spazio tra le card */
-    padding-top: 10px;
-    /* Griglia Mobile-First: 1 colonna per schermi piccoli */
+    gap: 25px;
+    padding-top: 20px;
     grid-template-columns: 1fr; 
 }
 
-/* Responsive: 2 colonne per schermi più larghi (es. tablet/desktop) */
-@media (min-width: 600px) {
-    #punti-di-interesse-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+@media (min-width: 768px) {
+    #punti-di-interesse-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* STILE DELLA SINGOLA CARD */
+@media (min-width: 1024px) {
+    #punti-di-interesse-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* CARD MONUMENTO */
 .monument-card {
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
     overflow: hidden; 
-    transition: transform 0.2s;
-    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
 }
 
 .monument-card:hover {
-    transform: translateY(-3px); 
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* FOTO NELLA CARD CON EFFETTO ZOOM */
+.card-image-wrapper {
+    width: 100%;
+    height: 280px; /* Altezza generosa per le tue foto */
+    overflow: hidden;
 }
 
 .card-image {
     width: 100%;
-    height: 150px; 
-    object-fit: cover; 
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.monument-card:hover .card-image {
+    transform: scale(1.1);
 }
 
 .card-body {
-    padding: 15px;
+    padding: 20px;
+    flex-grow: 1;
 }
 
 .card-body h3 {
-    margin-top: 0;
-    color: var(--colore-blu);
-    font-size: 1.1rem;
-}
-
-/* Impedisce che il titolo finisca sotto l'header quando si usa l'ancora */
-h3[id] {
-    scroll-margin-top: 70px; 
+    margin: 0 0 10px 0;
+    color: var(--colore-rosso);
+    font-size: 1.25rem;
 }
 
 .card-body p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
 }
-/* === FINE STILE MONUMENTI === */
-/* === STILI PER TOC SEMPLIFICATO === */
+
+/* TOC E ALTRI STILI */
 .section-toc {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background-color: #fff;
     border-left: 5px solid var(--colore-blu);
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .toc-list {
     list-style: none;
     padding: 0;
-    margin: 0;
     display: flex;
-    flex-wrap: wrap; /* Permette ai link di andare a capo su mobile */
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .toc-item a {
-    display: inline-block;
-    padding: 5px 12px;
     text-decoration: none;
     color: var(--colore-blu);
-    background-color: #f0f7ff; /* Un leggero sfondo per farli sembrare bottoni */
-    border-radius: 20px;
+    background-color: #f0f7ff;
+    padding: 8px 16px;
+    border-radius: 25px;
     font-size: 0.9rem;
-    transition: all 0.2s;
-    border: 1px solid transparent;
+    font-weight: 500;
+    transition: 0.2s;
 }
 
 .toc-item a:hover {
@@ -245,77 +262,24 @@ h3[id] {
     color: white;
 }
 
-.scroll-content {
-    border-top: 1px solid #ddd; /* Una linea sottile sopra l'inizio del testo */
-    padding-top: 20px;
-    margin-top: 20px;
-}
-
-.scroll-content h3 {
-    color: var(--colore-rosso); /* Richiama il colore dell'header per i titoli */
-    margin-bottom: 10px;
-}
-
-.scroll-content p {
-    line-height: 1.6; /* Aumenta lo spazio tra le righe per facilitare la lettura */
-    margin-bottom: 20px;
-}
-
-/* === STILI PER CHECKLIST INTERATTIVA === */
+/* CHECKLIST */
 .checklist-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 15px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .checklist-item {
     display: flex;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.checklist-item:last-child {
-    border-bottom: none;
-}
-
-.checklist-item:hover {
-    background-color: #f9f9f9;
-}
-
-.checklist-label {
-    flex-grow: 1;
-    padding-left: 10px;
-    user-select: none;
-}
-
-/* Stile per l'elemento spuntato */
-.checklist-item input[type="checkbox"]:checked + .checklist-label {
-    text-decoration: line-through;
-    color: #999;
-    font-style: italic;
-}
-
-/* Stile per il pulsante di reset */
-#reset-checklist {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: var(--colore-rosso);
-    color: white;
-    border: none;
-    border-radius: 4px;
+.checklist-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-#reset-checklist:hover {
-    background-color: #c71e24; /* Tonalità più scura del rosso */
 }
