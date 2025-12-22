@@ -140,7 +140,7 @@ function setLanguage(lang) {
     document.querySelector(`.flag.${lang}`).classList.add('active');
 
     document.querySelectorAll('[data-it]').forEach(element => {
-        element.textContent = lang === 'it' ? element.getAttribute('data-it') : element.getAttribute('data-es');
+        element.innerHTML = lang === 'it' ? element.getAttribute('data-it') : element.getAttribute('data-es');
     });
     
     document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
