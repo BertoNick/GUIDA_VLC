@@ -41,6 +41,7 @@ body {
 
 /* MENU HAMBURGER (Icona e Stile) */
 .menu-icon {
+    margin-right: 30px;
     cursor: pointer;
     padding: 10px;
     display: flex;
