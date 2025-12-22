@@ -47,6 +47,15 @@ const valenciaPOI = [
         descrizione_IT: "Uno dei mercati più grandi d'Europa, costruito nel 1914 e noto per la sua architettura modernista e i prodotti freschi locali.",
         descrizione_ES: "Uno de los mercados más grandes de Europa, construido en 1914 y conocido por su arquitectura modernista y sus productos frescos locales."
     },
+      {
+        nome: "Mercado de Colón",
+        lat: 39.46899, 
+        lon: -0.36836,
+        immagine: "img/mercado_colon.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Inaugurato nel 1916, il Mercato di Colón è uno dei principali esempi del modernismo valenciano e un pezzo chiave del patrimonio industriale della città. Si distingue per l'imponente facciata in mattoni rossi, ceramiche policrome e dettagli in ferro battuto che rendono omaggio alla tradizione agricola valenciana. Dopo aver abbandonato la sua funzione originale di mercato annonario tradizionale, l'edificio è stato magistralmente riabilitato per trasformarsi in un centro gastronomico e culturale di riferimento, dove l'eleganza della sua architettura centenaria convive oggi con il fermento cosmopolita dei suoi caffè e delle sue terrazze.",
+        descrizione_ES: "Inaugurado en 1916, el Mercado de Colón es uno de los máximos ejemplos del modernismo valenciano y una pieza clave del patrimonio industrial de la ciudad. Destaca por su imponente fachada de ladrillo rojo, cerámica policromada y detalles en forja que rinden homenaje a la huerta valenciana. Tras dejar atrás su función como mercado de abastos tradicional, el edificio fue rehabilitado con maestría para transformarse en un centro gastronómico y cultural de referencia, donde la elegancia de su arquitectura centenaria convive hoy con el bullicio cosmopolita de sus terrazas y cafeterías."
+    },
     {
         nome: "La Lonja de la Seda",
         lat: 39.47459, 
