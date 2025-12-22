@@ -128,11 +128,14 @@ body {
     display: block; 
 }
 
-/* STILE SPECIFICO PER LA MAPPA */
+/* STILE SPECIFICO PER LA MAPPA (PIÙ RESPONSIVE) */
 #map-container {
-    height: 600px; 
+    height: 70vh; /* Usa il 70% dell'altezza dello schermo dello studente */
+    min-height: 350px; /* Ma non meno di 350px */
     width: 100%;
     margin-top: 10px;
+    border-radius: 8px; /* Un tocco estetico per arrotondare gli angoli della mappa */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
 }
 
 /* STILE PLACEHOLDER GALLERIA */
@@ -149,7 +152,7 @@ body {
 }
 
 /* === STILE PER LA GRIGLIA DI MONUMENTI (CORRETTO) === */
-#monuments-grid {
+#punti-di-interesse-grid {
     display: grid;
     gap: 15px; /* Spazio tra le card */
     padding-top: 10px;
@@ -159,7 +162,7 @@ body {
 
 /* Responsive: 2 colonne per schermi più larghi (es. tablet/desktop) */
 @media (min-width: 600px) {
-    #monuments-grid {
+    #punti-di-interesse-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -194,63 +197,69 @@ body {
     font-size: 1.1rem;
 }
 
+/* Impedisce che il titolo finisca sotto l'header quando si usa l'ancora */
+h3[id] {
+    scroll-margin-top: 70px; 
+}
+
 .card-body p {
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 0;
 }
 /* === FINE STILE MONUMENTI === */
-/* === STILI PER TOC (TABLE OF CONTENTS) === */
+/* === STILI PER TOC SEMPLIFICATO === */
 .section-toc {
     background-color: #ffffff;
     border: 1px solid #ddd;
-    border-left: 5px solid var(--colore-blu); /* Bordo di accento */
-    padding: 10px 15px;
+    border-left: 5px solid var(--colore-blu);
+    padding: 15px;
     margin-bottom: 20px;
     border-radius: 4px;
-}
-
-.section-toc h3 {
-    margin-top: 0;
-    font-size: 1.2rem;
-    color: var(--colore-blu);
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
 }
 
 .toc-list {
     list-style: none;
     padding: 0;
-    margin: 10px 0 0 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Permette ai link di andare a capo su mobile */
+    gap: 10px;
 }
 
 .toc-item a {
-    display: block;
-    padding: 5px 0;
+    display: inline-block;
+    padding: 5px 12px;
     text-decoration: none;
-    color: #555;
-    transition: background-color 0.2s;
+    color: var(--colore-blu);
+    background-color: #f0f7ff; /* Un leggero sfondo per farli sembrare bottoni */
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
 }
 
 .toc-item a:hover {
-    color: var(--colore-rosso);
+    background-color: var(--colore-blu);
+    color: white;
 }
 
-/* Stile per l'elemento attivo evidenziato dall'Intersection Observer */
-.toc-item.active a {
-    font-weight: 700;
-    color: var(--colore-arancio); /* Colore per evidenziare l'elemento corrente */
-    background-color: #fff8e8; /* Sfondo leggero */
-    padding-left: 5px;
-    border-radius: 2px;
-}
-
-/* Stile per il contenitore principale del contenuto scorrevole */
 .scroll-content {
-    /* Aggiunge un bordo per separare visivamente il TOC dal contenuto */
-    border-left: 1px solid #eee; 
-    padding-left: 10px;
+    border-top: 1px solid #ddd; /* Una linea sottile sopra l'inizio del testo */
+    padding-top: 20px;
+    margin-top: 20px;
 }
+
+.scroll-content h3 {
+    color: var(--colore-rosso); /* Richiama il colore dell'header per i titoli */
+    margin-bottom: 10px;
+}
+
+.scroll-content p {
+    line-height: 1.6; /* Aumenta lo spazio tra le righe per facilitare la lettura */
+    margin-bottom: 20px;
+}
+
 /* === STILI PER CHECKLIST INTERATTIVA === */
 .checklist-container {
     max-width: 600px;

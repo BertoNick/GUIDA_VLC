@@ -328,17 +328,7 @@ function setupTocScrolling() {
 }
 
 
-/**
- * Crea e gestisce l'Intersection Observer per evidenziare la sezione attiva nel TOC.
- */
-function setupIntersectionObserver() {
-    // Le opzioni definiscono quando l'Observer deve reagire.
-    // Attiva quando il 50% superiore del viewport è intersecato
-    const options = {
-        root: null, // viewport come root
-        rootMargin: '0px 0px -50% 0px', 
-        threshold: 0.1 
-    };
+
 
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -383,7 +373,6 @@ function setupIntersectionObserver() {
             // CHIAMATE AGGIUNTE PER IL TOC E LO SCROLL
             // **********************************************
             setupTocScrolling();
-            setupIntersectionObserver();
             // Listener per il pulsante di reset della checklist
             document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
         });
