@@ -1,73 +1,60 @@
 // Variabili Globali
-        let currentLang = 'it';
-        let map = null; 
-        
-        // ======================================================================
-        // DATI DEI PUNTI DI INTERESSE (POI)
-        // ======================================================================
-        const valenciaPOI = [
-            {
-                nome: "Città delle Arti e delle Scienze",
-                lat: 39.4627, 
-                lon: -0.3546, 
-                descrizione_IT: "Un complesso futuristico che ospita un oceanografico, un museo della scienza e un planetario. Un simbolo moderno di Valencia.",
-                descrizione_ES: "Un complejo futurista que alberga un oceanográfico, un museo de las ciencias y un planetario. Un símbolo moderno de Valencia."
-            },
-            {
-                nome: "Mercato Centrale",
-                lat: 39.4727, 
-                lon: -0.3780, 
-                descrizione_IT: "Uno dei mercati più grandi d'Europa, noto per la sua architettura modernista e i prodotti freschi locali.",
-                descrizione_ES: "Uno de los mercados más grandes de Europa, conocido por su arquitectura modernista y sus productos frescos locales."
-            },
-            {
-                nome: "La Lonja de la Seda",
-                lat: 39.4740, 
-                lon: -0.3789, 
-                descrizione_IT: "Antica Borsa della Seta, capolavoro del Gotico valenciano e Patrimonio Mondiale dell'UNESCO.",
-                descrizione_ES: "Antigua Bolsa de la Seda, obra maestra del Gótico valenciano y Patrimonio Mundial de la UNESCO."
-            }
-        ];
-        
-        /**
-         * Funzione che genera dinamicamente le card per la sezione Punti di Interesse.
-         */
-        function renderMonuments() {
-            // ID AGGIORNATO
-            const gridContainer = document.getElementById('punti-di-interesse-grid'); 
-            if (!gridContainer) return; 
-            
-            // Pulisci il contenuto precedente prima di renderizzare
-            gridContainer.innerHTML = ''; 
+let currentLang = 'it';
+let map = null;
 
-            // Determina la chiave della descrizione in base alla lingua attiva
-            const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
+// ======================================================================
+// DATI DEI PUNTI DI INTERESSE (POI)
+// ======================================================================
+const valenciaPOI = [
+    {
+        nome: "Città delle Arti e delle Scienze",
+        lat: 39.4627,
+        lon: -0.3546,
+        descrizione_IT: "Un complesso futuristico che ospita un oceanografico, un museo della scienza e un planetario. Un simbolo moderno di Valencia.",
+        descrizione_ES: "Un complejo futurista que alberga un oceanográfico, un museo de las ciencias y un planetario. Un símbolo moderno de Valencia."
+    },
+    {
+        nome: "Mercato Centrale",
+        lat: 39.4727,
+        lon: -0.3780,
+        descrizione_IT: "Uno dei mercati più grandi d'Europa, noto per la sua architettura modernista e i prodotti freschi locali.",
+        descrizione_ES: "Uno de los mercados más grandes de Europa, conocido por su arquitectura modernista y sus productos frescos locales."
+    },
+    {
+        nome: "La Lonja de la Seda",
+        lat: 39.4740,
+        lon: -0.3789,
+        descrizione_IT: "Antica Borsa della Seta, capolavoro del Gotico valenciano e Patrimonio Mondiale dell'UNESCO.",
+        descrizione_ES: "Antigua Bolsa de la Seda, obra maestra del Gótico valenciano y Patrimonio Mundial de la UNESCO."
+    }
+];
 
-            valenciaPOI.forEach(poi => {
-                
-                const description = poi[descriptionKey] || poi.descrizione_IT; // Fallback IT
-                
-                // Crea la struttura HTML della singola card
-                const cardHTML = `
-                    <div class="monument-card">
-                        <img 
-                            src="https://via.placeholder.com/600x400?text=${poi.nome.replace(/\s/g, '+')}" 
-                            alt="${poi.nome}" 
-                            class="card-image"
-                        >
-                        <div class="card-body">
-                            <h3>${poi.nome}</h3>
-                            <p>${description}</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Inserisce il codice HTML della card nel contenitore
-                gridContainer.innerHTML += cardHTML;
-            });
-        }
-        // ======================================================================
-// DATI CHECKLIST
+// ======================================================================
+// RENDERING MONUMENTI
+// ======================================================================
+function renderMonuments() {
+    const gridContainer = document.getElementById('punti-di-interesse-grid');
+    if (!gridContainer) return;
+    
+    gridContainer.innerHTML = '';
+    const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
+
+    valenciaPOI.forEach(poi => {
+        const description = poi[descriptionKey] || poi.descrizione_IT;
+        const cardHTML = `
+            <div class="monument-card">
+                <img src="https://via.placeholder.com/600x400?text=${poi.nome.replace(/\s/g, '+')}" alt="${poi.nome}" class="card-image">
+                <div class="card-body">
+                    <h3>${poi.nome}</h3>
+                    <p>${description}</p>
+                </div>
+            </div>`;
+        gridContainer.innerHTML += cardHTML;
+    });
+}
+
+// ======================================================================
+// LOGICA CHECKLIST
 // ======================================================================
 const checklistData = [
     { it: "Passaporto/Carta d'identità", es: "Pasaporte/DNI" },
@@ -83,296 +70,151 @@ const checklistData = [
 
 const STORAGE_KEY = 'valencia_checklist_status';
 
-/**
- * Funzione che carica lo stato della checklist dal localStorage.
- * Ritorna un oggetto { indice: true/false }.
- */
 function loadChecklistStatus() {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : {};
 }
 
-/**
- * Funzione che salva lo stato della checklist nel localStorage.
- */
 function saveChecklistStatus(status) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(status));
 }
 
-/**
- * Genera l'HTML della checklist e gestisce l'interazione.
- */
 function renderChecklist() {
     const container = document.getElementById('checklist-list');
     if (!container) return;
-
-    // 1. Carica lo stato salvato
     let status = loadChecklistStatus();
-    container.innerHTML = '';
-
-    const listHTML = checklistData.map((item, index) => {
+    container.innerHTML = checklistData.map((item, index) => {
         const itemText = currentLang === 'it' ? item.it : item.es;
         const isChecked = status[index] === true;
-
         return `
             <label class="checklist-item" data-index="${index}">
                 <input type="checkbox" ${isChecked ? 'checked' : ''}>
                 <span class="checklist-label">${itemText}</span>
-            </label>
-        `;
+            </label>`;
     }).join('');
 
-    container.innerHTML = listHTML;
-
-    // 2. Aggiungi i listener per la spunta
     container.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', (e) => {
             const index = parseInt(e.target.closest('.checklist-item').dataset.index);
-            
-            // Aggiorna lo stato e salvalo
             status[index] = e.target.checked;
             saveChecklistStatus(status);
-            
-            // Forziamo il ricalcolo degli stili per linea sbarrata
-            e.target.closest('.checklist-item').classList.toggle('checked', e.target.checked);
         });
     });
 }
 
-/**
- * Resetta la checklist (rimuove tutti gli stati da localStorage).
- */
 function resetChecklist() {
-    if (confirm(currentLang === 'it' ? 'Sei sicuro di voler resettare tutta la checklist?' : '¿Estás seguro/a de querer restablecer toda la lista de verificación?')) {
+    if (confirm(currentLang === 'it' ? 'Sei sicuro di voler resettare tutta la checklist?' : '¿Estás seguro/a de querer restablecer toda la lista?')) {
         localStorage.removeItem(STORAGE_KEY);
-        // Rigenera la lista vuota
-        renderChecklist(); 
-        alert(currentLang === 'it' ? 'Checklist resettata con successo!' : '¡Lista de verificación restablecida con éxito!');
+        renderChecklist();
     }
 }
-        
-        // ======================================================================
-        // LOGICA DI BASE (Navigazione, Lingua)
-        // ======================================================================
 
-        /**
-         * Funzione che gestisce la visualizzazione delle diverse sezioni.
-         */
-        function changeSection(targetSectionId) {
-            // 1. Nascondi tutte le sezioni e mostra la target
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            const targetSection = document.getElementById(targetSectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // 2. Chiudi il menu
-            document.getElementById('menu-overlay').classList.remove('open');
+// ======================================================================
+// LOGICA DI BASE (Navigazione, Lingua)
+// ======================================================================
+function changeSection(targetSectionId) {
+    document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+    const targetSection = document.getElementById(targetSectionId);
+    if (targetSection) targetSection.classList.add('active');
+    
+    document.getElementById('menu-overlay').classList.remove('open');
 
-            // 3. Gestione Rendering Sezioni Speciali
-            if (targetSectionId === 'mappa') {
-                if (map === null) {
-                    initMap();
-                }
-                
-                // FIX JS: Forza Leaflet a ricalcolare le dimensioni DOPO che il div è visibile
-                if (map !== null) {
-                    setTimeout(() => {
-                        map.invalidateSize(); 
-                        addMarkers(); 
-                    }, 10); 
-                }
-            } else if (targetSectionId === 'punti-di-interesse') { // ID AGGIORNATO
-                // Genera le card dei punti di interesse
-                renderMonuments(); 
-            } else if (targetSectionId === 'checklist') {
-                // Genera la checklist all'apertura
-                renderChecklist();
-            }
-        }
-
-        /**
-         * Funzione che imposta la lingua attiva e aggiorna i testi.
-         */
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // Aggiorna lo stato visivo delle bandiere
-            document.querySelectorAll('.flag').forEach(flag => {
-                flag.classList.remove('active');
-            });
-            document.querySelector(`.flag.${lang}`).classList.add('active');
-
-            // Logica di Traduzione (usando data-attributes)
-            document.querySelectorAll('[data-it]').forEach(element => {
-                const textIT = element.getAttribute('data-it');
-                const textES = element.getAttribute('data-es');
-                
-                // Aggiorna il testo dell'elemento in base alla lingua
-                element.textContent = lang === 'it' ? textIT : textES;
-            });
-            
-            // Aggiornamento del titolo in Header
-            document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
-            
-            // Aggiorna la griglia dei punti di interesse se la sezione è attiva 
-            if (document.getElementById('punti-di-interesse').classList.contains('active')) { // ID AGGIORNATO
-                renderMonuments(); 
-            }
-            
-            // Ricarica i marker per aggiornare la lingua del popup (se la mappa è aperta)
-            if (map !== null && document.getElementById('mappa').classList.contains('active')) {
+    if (targetSectionId === 'mappa') {
+        if (map === null) initMap();
+        setTimeout(() => { 
+            if (map) {
+                map.invalidateSize(); 
                 addMarkers(); 
             }
-        }
-        
-        // Listener per i pulsanti del menu
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('menu-overlay').classList.add('open');
-        });
+        }, 100);
+    } else if (targetSectionId === 'punti-di-interesse') {
+        renderMonuments();
+    } else if (targetSectionId === 'checklist') {
+        renderChecklist();
+    }
+}
 
-        document.getElementById('menu-close').addEventListener('click', () => {
-            document.getElementById('menu-overlay').classList.remove('open');
-        });
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.flag').forEach(flag => flag.classList.remove('active'));
+    document.querySelector(`.flag.${lang}`).classList.add('active');
 
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                const sectionId = e.target.dataset.section;
-                changeSection(sectionId);
-            });
-        });
+    document.querySelectorAll('[data-it]').forEach(element => {
+        element.textContent = lang === 'it' ? element.getAttribute('data-it') : element.getAttribute('data-es');
+    });
+    
+    document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
+    if (document.getElementById('punti-di-interesse').classList.contains('active')) renderMonuments();
+}
 
-        document.querySelectorAll('.flag').forEach(flag => {
-            flag.addEventListener('click', (e) => {
-                const lang = e.target.dataset.lang;
-                setLanguage(lang);
-            });
-        });
-
-        // ======================================================================
-        // LOGICA LEAFLET (MAPPA E MARKER) - (Nessuna modifica qui)
-        // ======================================================================
-        function initMap() {
-            if (map !== null) return;
-            
-            const VALENCIA_COORDS = [39.4699, -0.3763]; 
-            map = L.map('map-container').setView(VALENCIA_COORDS, 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        }
-
-        /**
-         * Funzione che itera sui dati e aggiunge/aggiorna i marker alla mappa.
-         */
-        function addMarkers() {
-            if (map === null) return;
-
-            // Rimuovi tutti i marker esistenti
-            map.eachLayer(layer => {
-                if (layer instanceof L.Marker) {
-                    map.removeLayer(layer);
-                }
-            });
-
-            // Iterazione sui POI e creazione dei Marker
-            valenciaPOI.forEach(poi => {
-                
-                // Determina quale descrizione usare in base alla lingua attiva
-                const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
-                const description = poi[descriptionKey] || poi.descrizione_IT; // Fallback IT
-                
-                // Contenuto HTML del popup
-                const popupContent = `
-                    <div style="font-family: 'Montserrat', sans-serif;">
-                        <strong>${poi.nome}</strong>
-                        <hr style="margin: 5px 0;">
-                        <p>${description}</p>
-                    </div>
-                `;
-
-                // Creazione del Marker e aggiunta del Popup
-                L.marker([poi.lat, poi.lon])
-                    .addTo(map)
-                    .bindPopup(popupContent);
-            });
-        }
-        // ======================================================================
-// LOGICA TOC INTERNO (MICRO-NAVIGAZIONE)
 // ======================================================================
+// MAPPA
+// ======================================================================
+function initMap() {
+    if (map !== null) return;
+    map = L.map('map-container').setView([39.4699, -0.3763], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+}
 
-/**
- * Gestisce lo scorrimento fluido alla sottosezione quando si clicca un elemento TOC.
- */
+function addMarkers() {
+    if (map === null) return;
+    map.eachLayer(layer => { if (layer instanceof L.Marker) map.removeLayer(layer); });
+    valenciaPOI.forEach(poi => {
+        const desc = currentLang === 'it' ? poi.descrizione_IT : poi.descrizione_ES;
+        L.marker([poi.lat, poi.lon]).addTo(map).bindPopup(`<b>${poi.nome}</b><br>${desc}`);
+    });
+}
+
+// ======================================================================
+// TOC SCROLLING
+// ======================================================================
 function setupTocScrolling() {
-    // Seleziona tutti i link del TOC nelle sezioni lunghe
     document.querySelectorAll('.section-toc .toc-item a').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault(); // Impedisce il salto istantaneo del browser
-            
+            e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
-            
             if (targetElement) {
-                // Scorrimento fluido all'elemento target, all'interno del contenitore scorrevole
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start' // Allinea in cima
-                });
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
 }
 
-
-
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            // Controlliamo solo gli elementi che stanno entrando (o uscendo)
-            if (entry.isIntersecting) {
-                
-                const targetId = entry.target.id;
-                
-                // Trova l'elemento <li> corrispondente nel TOC usando l'attributo data-target
-                const tocItem = document.querySelector(`.toc-item[data-target="${targetId}"]`);
-                
-                if (tocItem) {
-                    // 1. Trova il TOC genitore (per non influenzare gli altri TOC)
-                    const parentToc = tocItem.closest('.toc-list');
-                    if (parentToc) {
-                        // 2. Rimuovi la classe attiva da tutti gli elementi dello stesso TOC
-                        parentToc.querySelectorAll('.toc-item').forEach(item => {
-                            item.classList.remove('active');
-                        });
-                        // 3. Aggiungi la classe attiva all'elemento corrente
-                        tocItem.classList.add('active');
-                    }
-                }
-            }
-        });
-    }, options);
-
-    // Osserva tutti i sottotitoli H3 che hanno un ID all'interno dei contenitori scorrevoli
-    document.querySelectorAll('.scroll-content h3[id]').forEach(h3 => {
-        observer.observe(h3);
+// ======================================================================
+// INIZIALIZZAZIONE (DOM CONTENT LOADED)
+// ======================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Listener Menu Hamburger
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+        document.getElementById('menu-overlay').classList.add('open');
     });
-}
 
-        // Inizializza la lingua e la sezione all'avvio
-        document.addEventListener('DOMContentLoaded', () => {
-            // Partiamo da 'home'
-            changeSection('home'); 
-            // Inizializza la lingua su 'it'
-            setLanguage('it');
+    document.getElementById('menu-close').addEventListener('click', () => {
+        document.getElementById('menu-overlay').classList.remove('open');
+    });
 
-            // **********************************************
-            // CHIAMATE AGGIUNTE PER IL TOC E LO SCROLL
-            // **********************************************
-            setupTocScrolling();
-            // Listener per il pulsante di reset della checklist
-            document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const sectionId = e.target.dataset.section;
+            changeSection(sectionId);
         });
+    });
+
+    // Listener Lingua
+    document.querySelectorAll('.flag').forEach(flag => {
+        flag.addEventListener('click', (e) => {
+            setLanguage(e.target.dataset.lang);
+        });
+    });
+
+    // Listener Reset Checklist
+    document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
+
+    // Setup iniziale
+    setupTocScrolling();
+    setLanguage('it');
+    changeSection('home');
+});
