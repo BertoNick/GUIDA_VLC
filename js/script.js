@@ -78,7 +78,7 @@ const valenciaPOI = [
         nome: "Cattedrale",
         lat: 39.47536, 
         lon: -0.37548,
-        immagine: "img/cattedrale.jpg",
+        immagine: "img/cattedrale.jpeg",
         tipologia: "monumento",
         descrizione_IT: "La Cattedrale di Valencia, conosciuta come la Seu, è un tempio prevalentemente in stile gotico valenciano consacrato nel 1238, che custodisce tesori come il Santo Graal e importanti dipinti del Quattrocento. La sua importanza storica risiede sia nella fusione di stili architettonici, sia nell'essere stata elevata a sede metropolitana sotto l'influenza della famiglia Borgia.",
         descrizione_ES: "La Catedral de Valencia, conocida como la Seu, es un templo de predominio gótico valenciano consagrado en 1238 que alberga tesoros como el Santo Cáliz y destacadas pinturas del Quattrocento. Su importancia histórica radica tanto en su mezcla de estilos arquitectónicos como en haber sido elevada a sede metropolitana bajo la influencia de la familia Borja.."
@@ -123,7 +123,7 @@ const valenciaPOI = [
         nome: "Roig Arena",
         lat: 39.449186, 
         lon: -0.364241,
-        immagine: "img/roig.jpg",
+        immagine: "img/roig.jpeg",
         tipologia: "sport",
         descrizione_IT: "Inaugurato nel 2025, il Roig Arena è un avanguardistico spazio polifunzionale diventato uno dei centri per eventi più avanzati d'Europa. Con una capacità fino a 20.000 spettatori, questo colossale progetto è stato finanziato interamente da Juan Roig (proprietario di Mercadona) con un investimento di 400 milioni di euro, dotando la città di una sede d'élite per il basket e per i grandi tour internazionali..",
         descrizione_ES: "Inaugurado en 2025, el Roig Arena es un vanguardista recinto multiusos que se ha convertido en uno de los centros de eventos más avanzados de Europa. Con capacidad para hasta 20.000 espectadores, este colosal proyecto ha sido financiado íntegramente por Juan Roig (propietario de Mercadona) con una inversión de 400 millones de euros, dotando a la ciudad de una sede de élite para el baloncesto y grandes giras internacionales."
@@ -186,7 +186,7 @@ const valenciaPOI = [
         nome: "Puente de la solidaridad",
         lat: 39.43851,
         lon: -0.39354,
-        immagine: "img/solidaridad.jpg",
+        immagine: "img/solidaridad.webp",
         tipologia: "monumento",
         descrizione_IT: "Il 29 ottobre 2024, Valencia è stata colpita dalla più devastante alluvione della sua storia, una catastrofe che ha fatto esondare i torrenti e sommerso decine di comuni, lasciando un tragico bilancio di oltre 200 vittime e danni incalcolabili. Nel mezzo del dolore, la passerella pedonale che unisce il quartiere di San Marcelino ai paesi del sud è stata ribattezzata Puente de la Solidaridad, in onore dei migliaia di volontari che, con pale e stivali di gomma, l'hanno attraversata a piedi ogni giorno per aiutare i propri vicini a spalare il fango e a ricostruire le proprie vite.",
         descrizione_ES: "El 29 de octubre de 2024, Valencia sufrió la DANA más devastadora de su historia, una catástrofe que desbordó barrancos y anegó decenas de municipios, dejando un trágico balance de más de 200 víctimas y daños incalculables. En medio del dolor, la pasarela peatonal que une el barrio de San Marcelino con los pueblos del sur fue rebautizada como Puente de la Solidaridad, en honor a los miles de voluntarios que, con palas y botas de agua, cruzaron a pie cada día para ayudar a sus vecinos a limpiar el barro y reconstruir sus vidas."
