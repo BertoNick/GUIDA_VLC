@@ -204,7 +204,7 @@ const valenciaPOI = [
         nome: "Plaza de Toros",
         lat: 39.46674, 
         lon: -0.37614,
-        immagine: "img/plaza_toros.jpg",
+        immagine: "img/plaza_toros.jpeg",
         tipologia: "monumento",
         descrizione_IT: "Costruita tra il 1850 e il 1860, la Plaza de Toros di Valencia è un imponente edificio neoclassico ispirato all'architettura romana, in particolare al Colosseo. Con la sua caratteristica struttura ad archi in mattoni a vista, questa arena è una delle più grandi di Spagna e funge da maestoso passaggio tra il centro storico e l'ampliamento moderno della città. Oltre alla sua funzione taurina, la piazza è un vibrante centro per concerti e grandi eventi, integrandosi nel paesaggio urbano come un solido monumento alla storia sociale valenciana.",
         descrizione_ES: "Construida entre 1850 y 1860, la Plaza de Toros de Valencia es un imponente edificio neoclásico inspirado en la arquitectura romana, concretamente en el Coliseo. Con su característica estructura de arcos de ladrillo visto, este coso es uno de los más grandes de España y sirve como majestuosa transición entre el casco antiguo y el ensanche moderno de la ciudad. Además de su función taurina, la plaza es un vibrante centro para conciertos y grandes eventos, integrándose en el paisaje urbano como un sólido monumento a la historia social valenciana."
