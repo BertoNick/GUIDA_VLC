@@ -288,3 +288,30 @@ body {
     height: 18px;
     cursor: pointer;
 }
+/* STILE IMMAGINI NELLE SEZIONI TESTUALI (Simboli e Cultura) */
+.inline-photo-container {
+    margin: 25px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.inline-photo {
+    width: 100%;
+    max-width: 600px;      /* Impedisce che diventino enormi su schermi grandi */
+    height: 300px;         /* Altezza fissa per dare ordine */
+    object-fit: cover;     /* Taglia l'immagine bene senza deformarla */
+    
+    /* Estetica: Bordi e Ombre */
+    border-radius: 12px;   /* Arrotonda gli angoli come le card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Ombra morbida */
+    
+    /* Effetto Hover (opzionale) */
+    transition: transform 0.3s ease;
+}
+
+/* Responsive: sui cellulari piccoli riduciamo l'altezza */
+@media (max-width: 480px) {
+    .inline-photo {
+        height: 200px;
+    }
+}

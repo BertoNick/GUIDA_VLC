@@ -214,7 +214,7 @@ const valenciaPOI = [
         lat: 39.47387, 
         lon: -0.37626,
         immagine: "img/santa_catalina.jpg",
-        tipologia: "monumento",
+        tipologia: "default",
         descrizione_IT: "Situata all'ingresso del pittoresco quartiere del Carmen, la Horchatería Santa Catalina è un tempio della tradizione valenciana con oltre due secoli di storia. Questo locale iconico non è famoso solo per la sua horchata artigianale e i suoi 'fartons', ma anche per la sua spettacolare decorazione in ceramica di Manises, che riveste le pareti con scene colorate che evocano la cultura locale. Sedersi ai suoi tavoli di marmo significa fare un viaggio nel tempo, godendo di un'atmosfera autentica e familiare nel cuore pulsante del centro storico, a pochi passi dall'omonima chiesa gotica.",
         descrizione_ES: "Ubicada a las puertas del castizo barrio del Carmen, la Horchatería Santa Catalina es un templo de la tradición valenciana con más de dos siglos de historia. Este local icónico no solo es famoso por su horchata artesana y sus fartons, sino también por su espectacular decoración de cerámica de Manises, que reviste sus paredes con escenas coloridas que evocan la cultura local. Sentarse en sus mesas de mármol es realizar un viaje en el tiempo, disfrutando de una atmósfera auténtica y familiar en pleno corazón del casco antiguo, a solo unos pasos de la iglesia gótica homónima."
     },
