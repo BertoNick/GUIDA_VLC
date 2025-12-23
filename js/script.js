@@ -232,7 +232,7 @@ const valenciaPOI = [
         lat: 39.33938, 
         lon: -0.31971,
         immagine: "img/olla.jpeg",
-        tipologia: "monumento",
+        tipologia: "natura",
         descrizione_IT: "Situato nel cuore del Parco Naturale dell'Albufera, il Racó de l'Olla è un santuario della biodiversità e una tappa obbligatoria per gli amanti della natura. Questa zona di riserva protetta funge da punto di transito e nidificazione per innumerevoli specie di uccelli acquatici, offrendo sentieri didattici e torrette di osservazione con viste panoramiche privilegiate sulle lagune. È il luogo perfetto per staccare dal ritmo urbano e comprendere l'importanza ecologica del litorale valenciano, dove la quiete del paesaggio e il riflesso del sole sull'acqua creano un'atmosfera di pace assoluta.",
         descrizione_ES: "Situado en el corazón del Parque Natural de la Albufera, el Racó de l'Olla es un santuario de biodiversidad y una parada obligatoria para los amantes de la naturaleza. Esta zona de reserva protegida sirve como punto de tránsito y nidificación para innumerables especies de aves acuáticas, ofreciendo senderos didácticos y torres de observación con vistas panorámicas privilegiadas sobre las lagunas. Es el lugar perfecto para desconectar del ritmo urbano y comprender la importancia ecológica del litoral valenciano, donde la quietud del paisaje y el reflejo del sol sobre el agua crean una atmósfera de paz absoluta."
     }

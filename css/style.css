@@ -315,3 +315,10 @@ body {
         height: 200px;
     }
 }
+/* Questa regola annulla il taglio per le foto con classe .full-view */
+.inline-photo.full-view {
+    height: auto;          /* L'altezza si adatta proporzionalmente */
+    max-height: 400px;     /* Evitiamo comunque che diventi troppo alta */
+    object-fit: contain;   /* Mostra l'immagine intera senza tagliarla */
+    background-color: transparent; /* Se l'immagine è PNG trasparente */
+}
