@@ -1,9 +1,10 @@
 // Variabili Globali
 let currentLang = 'it';
 let map = null;
+let markersLayer = L.layerGroup(); 
 
 // ======================================================================
-// CONFIGURAZIONE ICONE PER TIPOLOGIA (CON EMOJI E COLORI)
+// CONFIGURAZIONE ICONE PER TIPOLOGIA
 // ======================================================================
 const poiIcons = {
     architettura: { icon: "📐", color: "#3498db" },
@@ -26,7 +27,38 @@ function createCustomIcon(tipologia) {
 }
 
 // ======================================================================
-// DATI DEI PUNTI DI INTERESSE (POI) - TESTI INTEGRALI RIPRISTINATI
+// FUNZIONE DI NAVIGAZIONE INTERNA (JUMP)
+// ======================================================================
+function jumpTo(sectionId, elementId, poiName = null) {
+    changeSection(sectionId);
+    
+    setTimeout(() => {
+        if (sectionId === 'mappa' && poiName) {
+            focusMarker(poiName);
+        } else {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.outline = "3px solid #e67e22";
+                element.style.borderRadius = "12px";
+                setTimeout(() => element.style.outline = "none", 2000);
+            }
+        }
+    }, 300);
+}
+
+function focusMarker(nome) {
+    if (!map) return;
+    markersLayer.eachLayer(layer => {
+        if (layer.options.title === nome) {
+            map.setView(layer.getLatLng(), 15);
+            layer.openPopup();
+        }
+    });
+}
+
+// ======================================================================
+// DATI DEI PUNTI DI INTERESSE (POI)
 // ======================================================================
 const valenciaPOI = [
     {
@@ -47,7 +79,7 @@ const valenciaPOI = [
         descrizione_IT: "Uno dei mercati più grandi d'Europa, costruito nel 1914 e noto per la sua architettura modernista e i prodotti freschi locali.",
         descrizione_ES: "Uno de los mercados más grandes de Europa, construido en 1914 y conocido por su arquitectura modernista y sus productos frescos locales."
     },
-      {
+    {
         nome: "Mercado de Colón",
         lat: 39.46899, 
         lon: -0.36836,
@@ -108,7 +140,7 @@ const valenciaPOI = [
         immagine: "img/veles.jpg",
         tipologia: "architettura",
         descrizione_IT: "Inaugurato nel 2006, l'edificio Veles e Vents è un edificio minimalista, progettato originariamente per l'America's Cup. Situato nella Marina di Valencia, questo iconico belvedere dalle ampie terrazze bianche è stato anche un punto di osservazione privilegiato durante gli anni in cui il circuito cittadino del GP di Formula 1 attraversava le strade del porto, diventando il simbolo della modernità marittima della città.",
-        descrizione_ES: "Inaugurado en 2006, el edificio Veles e Vents es una obra minimalista, diseñada originalmente para la America's Cup. Situado en la Marina de Valencia, este icónico mirador de grandes terrazas blancas fue también un punto de observación privilegiado durante los años en que el circuito urbano del GP de Fórmula 1 recorría las calles del puerto, convirtiéndose en el símbolo de la modernidad marítima de la ciudad.."
+        descrizione_ES: "Inaugurado en 2006, el edificio Veles e Vents es una obra minimalista, diseñada originalmente para la America's Cup. Situado en la Marina de Valencia, este icónico mirador de grandes terrazas blancas fue también un punto de observación privilegiado durante los años en que el circuito urbano del GP de fómula 1 recorría las calles del puerto, convirtiéndose en el símbolo de la modernidad marítima de la ciudad.."
     },
     {
         nome: "Stadio Mestalla",
@@ -191,16 +223,16 @@ const valenciaPOI = [
         descrizione_IT: "Il 29 ottobre 2024, Valencia è stata colpita dalla più devastante alluvione della sua storia, una catastrofe che ha fatto esondare i torrenti e sommerso decine di comuni, lasciando un tragico bilancio di oltre 200 vittime e danni incalcolabili. Nel mezzo del dolore, la passerella pedonale che unisce il quartiere di San Marcelino ai paesi del sud è stata ribattezzata Puente de la Solidaridad, in onore dei migliaia di volontari che, con pale e stivali di gomma, l'hanno attraversata a piedi ogni giorno per aiutare i propri vicini a spalare il fango e a ricostruire le proprie vite.",
         descrizione_ES: "El 29 de octubre de 2024, Valencia sufrió la DANA más devastadora de su historia, una catástrofe que desbordó barrancos y anegó decenas de municipios, dejando un trágico balance de más de 200 víctimas y daños incalculables. En medio del dolor, la pasarela peatonal que une el barrio de San Marcelino con los pueblos del sur fue rebautizada como Puente de la Solidaridad, en honor a los miles de voluntarios que, con palas y botas de agua, cruzaron a pie cada día para ayudar a sus vecinos a limpiar el barro y reconstruir sus vidas."
     },
-     {
+    {
         nome: "Estación del Norte",
         lat: 39.46713,
         lon: -0.37720,
         immagine: "img/estacion.jpg",
         tipologia: "monumento",
         descrizione_IT: "Inaugurata nel 1917, la Estación del Norte è un gioiello del modernismo valenciano che accoglie i viaggiatori con una facciata decorata da motivi vegetali e arance, simboli dell'agricoltura locale. Oltre alla sua imponente struttura in ferro, la stazione nasconde la 'Sala dei Mosaici', un ambiente estremamente fotogenico interamente rivestito di piastrelle e ceramiche che rendono omaggio al folklore regionale. Questo spazio, antica caffetteria della stazione, è oggi uno degli angoli più iconici e ammirati per la sua bellezza ornamentale e la sua luce.",
-        descrizione_ES: "Inaugurada en 1917, la Estación del Norte es una joya del modernismo valenciano que recibe a los viajeros con una fachada decorada con motivos vegetales y naranjas, símbolos de la agricultura local. Más allá de su imponente estructura de hierro, la estación esconde la 'Sala de los Mosaicos', una estancia sumamente fotogénica revestida por completo de azulejos y cerámicas que rinden homenaje al folclore regional. Este espacio, antigua cafetería de la estación, es hoy uno de los rincones más icónicos y admirados por su belleza ornamental y su luz."
+        descrizione_ES: "Inaugurada en 1917, la Estación del Norte es una joya del modernismo valenciano que recibe a los viajeros con una fachada decorada con motivos vegetales y naranjas, símbolos de la agricultura local. Más allá de su imponente estructura de hierro, la estación esconde la 'Sala de los Mosaicos', una estancia sumamente fotogénica revestida por completo de azulejos y cerámicas que rinden homenaje al folclore regional. Este espacio, antigua cafetería de la estación, es hoy un de los rincones más icónicos y admirados por su belleza ornamental y su luz."
     },
- {
+    {
         nome: "Plaza de Toros",
         lat: 39.46674, 
         lon: -0.37614,
@@ -209,16 +241,22 @@ const valenciaPOI = [
         descrizione_IT: "Costruita tra il 1850 e il 1860, la Plaza de Toros di Valencia è un imponente edificio neoclassico ispirato all'architettura romana, in particolare al Colosseo. Con la sua caratteristica struttura ad archi in mattoni a vista, questa arena è una delle più grandi di Spagna e funge da maestoso passaggio tra il centro storico e l'ampliamento moderno della città. Oltre alla sua funzione taurina, la piazza è un vibrante centro per concerti e grandi eventi, integrandosi nel paesaggio urbano come un solido monumento alla storia sociale valenciana.",
         descrizione_ES: "Construida entre 1850 y 1860, la Plaza de Toros de Valencia es un imponente edificio neoclásico inspirado en la arquitectura romana, concretamente en el Coliseo. Con su característica estructura de arcos de ladrillo visto, este coso es uno de los más grandes de España y sirve como majestuosa transición entre el casco antiguo y el ensanche moderno de la ciudad. Además de su función taurina, la plaza es un vibrante centro para conciertos y grandes eventos, integrándose en el paisaje urbano como un sólido monumento a la historia social valenciana."
     },
- {
+    {
         nome: "Horchatería de Santa Catalina",
         lat: 39.47387, 
         lon: -0.37626,
         immagine: "img/santa_catalina.jpg",
         tipologia: "default",
         descrizione_IT: "Situata all'ingresso del pittoresco quartiere del Carmen, la Horchatería Santa Catalina è un tempio della tradizione valenciana con oltre due secoli di storia. Questo locale iconico non è famoso solo per la sua horchata artigianale e i suoi 'fartons', ma anche per la sua spettacolare decorazione in ceramica di Manises, che riveste le pareti con scene colorate che evocano la cultura locale. Sedersi ai suoi tavoli di marmo significa fare un viaggio nel tempo, godendo di un'atmosfera autentica e familiare nel cuore pulsante del centro storico, a pochi passi dall'omonima chiesa gotica.",
-        descrizione_ES: "Ubicada a las puertas del castizo barrio del Carmen, la Horchatería Santa Catalina es un templo de la tradición valenciana con más de dos siglos de historia. Este local icónico no solo es famoso por su horchata artesana y sus fartons, sino también por su espectacular decoración de cerámica de Manises, que reviste sus paredes con escenas coloridas que evocan la cultura local. Sentarse en sus mesas de mármol es realizar un viaje en el tiempo, disfrutando de una atmósfera auténtica y familiar en pleno corazón del casco antiguo, a solo unos pasos de la iglesia gótica homónima."
+        _descrizione_ES: "Ubicada a las puertas del castizo barrio del Carmen, la Horchatería Santa Catalina es un templo de la tradición valenciana con más de dos siglos de historia. Este local icónico no solo es famoso por su horchata artesana y sus fartons, sino también por su espectacular decoración de cerámica de Manises, que reviste sus paredes con escenas coloridas que evocan la cultura local. Sentarse en sus mesas de mármol es realizar un viaje en el tiempo, disfrutando de una atmósfera auténtica y familiar en pleno corazón del casco antiguo, a solo unos pasos de la iglesia gótica homónima.",
+        get descrizione_ES() {
+            return this._descrizione_ES;
+        },
+        set descrizione_ES(value) {
+            this._descrizione_ES = value;
+        },
     },
- {
+    {
         nome: "Parc Gulliver",
         lat: 39.462732, 
         lon: -0.35949,
@@ -227,7 +265,7 @@ const valenciaPOI = [
         descrizione_IT: "Immerso nel Giardino del Turia, il Parco Gulliver è una delle aree gioco più creative e ammirate d'Europa. Ispirato all'opera di Jonathan Swift, il parco presenta una gigantesca figura distesa del naufrago Gulliver, lunga 70 metri, trasformata in un paesaggio di scivoli, rampe e scale. I visitatori, proprio come i lillipuziani del racconto, possono arrampicarsi ed esplorare il corpo del gigante, rendendo l'architettura ludica un'esperienza immersiva. È un punto di riferimento fondamentale per le famiglie e un simbolo del design urbano valenciano che invita a riscoprire la fantasia attraverso il gioco.",
         descrizione_ES: "Enclavado en el Jardín del Turia, el Parque Gulliver es una de las áreas de juegos más creativas y admiradas de Europa. Inspirado en la obra de Jonathan Swift, el parque presenta una gigantesca figura yacente del náufrago Gulliver, de 70 metros de largo, transformada en un paisaje de toboganes, rampas y escaleras. Los visitantes, al igual que los liliputienses del relato, pueden trepar y explorar el cuerpo del gigante, convirtiendo la arquitectura lúdica en una experiencia inmersiva. Es un referente fundamental para las familias y un símbolo del diseño urbano valenciano que invita a redescubrir la fantasía a través del juego."
     },
- {
+    {
         nome: "Centre d'Interpretació Racó de l'Olla - Parc Natural de l'Albufera",
         lat: 39.33938, 
         lon: -0.31971,
@@ -236,7 +274,6 @@ const valenciaPOI = [
         descrizione_IT: "Situato nel cuore del Parco Naturale dell'Albufera, il Racó de l'Olla è un santuario della biodiversità e una tappa obbligatoria per gli amanti della natura. Questa zona di riserva protetta funge da punto di transito e nidificazione per innumerevoli specie di uccelli acquatici, offrendo sentieri didattici e torrette di osservazione con viste panoramiche privilegiate sulle lagune. È il luogo perfetto per staccare dal ritmo urbano e comprendere l'importanza ecologica del litorale valenciano, dove la quiete del paesaggio e il riflesso del sole sull'acqua creano un'atmosfera di pace assoluta.",
         descrizione_ES: "Situado en el corazón del Parque Natural de la Albufera, el Racó de l'Olla es un santuario de biodiversidad y una parada obligatoria para los amantes de la naturaleza. Esta zona de reserva protegida sirve como punto de tránsito y nidificación para innumerables especies de aves acuáticas, ofreciendo senderos didácticos y torres de observación con vistas panorámicas privilegiadas sobre las lagunas. Es el lugar perfecto para desconectar del ritmo urbano y comprender la importancia ecológica del litoral valenciano, donde la quietud del paisaje y el reflejo del sol sobre el agua crean una atmósfera de paz absoluta."
     }
-
 ];
 
 // ======================================================================
@@ -271,41 +308,6 @@ function renderMonuments() {
         gridContainer.innerHTML += cardHTML;
     });
 }
-
-// ======================================================================
-// FUNZIONE DI NAVIGAZIONE INTERNA (JUMP)
-// ======================================================================
-function jumpTo(sectionId, elementId, poiName = null) {
-    changeSection(sectionId);
-    
-    setTimeout(() => {
-        if (sectionId === 'mappa' && poiName) {
-            focusMarker(poiName);
-        } else {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.style.outline = "3px solid #e67e22";
-                element.style.borderRadius = "12px";
-                setTimeout(() => element.style.outline = "none", 2000);
-            }
-        }
-    }, 300);
-}
-
-function focusMarker(nome) {
-    markersLayer.eachLayer(layer => {
-        if (layer.options.title === nome) {
-            map.setView(layer.getLatLng(), 15);
-            layer.openPopup();
-        }
-    });
-}
-
-// [I tuoi dati valenciaPOI rimangono invariati qui...]
-const valenciaPOI = [
-    // ... (Mantieni tutti i tuoi oggetti POI qui)
-];
 
 // ======================================================================
 // LOGICA CHECKLIST
@@ -392,11 +394,11 @@ function setLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll('.flag').forEach(flag => flag.classList.remove('active'));
     document.querySelector(`.flag.${lang}`).classList.add('active');
-
+    
     document.querySelectorAll('[data-it]').forEach(element => {
         element.innerHTML = lang === 'it' ? element.getAttribute('data-it') : element.getAttribute('data-es');
     });
-    
+
     document.getElementById('title').textContent = lang === 'it' ? 'Guida Valencia' : 'Guía Valencia';
     
     if (document.getElementById('punti-di-interesse').classList.contains('active')) renderMonuments();
@@ -448,7 +450,7 @@ function addMarkers() {
 }
 
 // ======================================================================
-// INIZIALIZZAZIONE (DOM CONTENT LOADED)
+// INIZIALIZZAZIONE
 // ======================================================================
 function setupTocScrolling() {
     document.querySelectorAll('.section-toc .toc-item a').forEach(anchor => {
@@ -464,6 +466,7 @@ function setupTocScrolling() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Menu
     document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('menu-overlay').classList.add('open'));
     document.getElementById('menu-close').addEventListener('click', () => document.getElementById('menu-overlay').classList.remove('open'));
     
@@ -471,11 +474,17 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', (e) => changeSection(e.target.dataset.section));
     });
 
+    // Lingue
     document.querySelectorAll('.flag').forEach(flag => {
-        flag.addEventListener('click', (e) => setLanguage(e.target.dataset.lang));
+        flag.addEventListener('click', (e) => {
+            const lang = e.target.getAttribute('data-lang') || e.target.dataset.lang;
+            setLanguage(lang);
+        });
     });
 
-    document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
+    // Checklist Reset
+    const resetBtn = document.getElementById('reset-checklist');
+    if(resetBtn) resetBtn.addEventListener('click', resetChecklist);
 
     setupTocScrolling();
     setLanguage('it');
