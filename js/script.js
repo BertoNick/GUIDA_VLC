@@ -314,14 +314,15 @@ function renderMonuments() {
 // ======================================================================
 const checklistData = [
     { it: "Passaporto/Carta d'identità", es: "Pasaporte/DNI" },
-    { it: "Prenotazioni (voli, hotel)", es: "Reservas (vuelos, hotel)" },
-    { it: "Assicurazione di viaggio", es: "Seguro de viaje" },
-    { it: "Adattatore di corrente", es: "Adaptador de corriente" },
+    { it: "carta di credito/debito", es: "Tarjeta de crédito/débito" },
+    { it: "Denaro in contanti", es: "Dinero en efectivo" },
+    { it: "Caricabatterie", es: "Cargador" },
     { it: "Scarpe comode", es: "Zapatos cómodos" },
-    { it: "Abbigliamento per il clima mediterraneo", es: "Ropa para clima mediterráneo" },
-    { it: "Crema solare", es: "Crema solar" },
+    { it: "Vestiti comodi", es: "Ropa cómoda" },
+    { it: "Powerbank", es: "Powerbank" },
+    { it: "Controllare dati in roaming / fare e-sim", es: "Consultar los datos en roaming / Contratar una e-SIM" },
     { it: "Farmaci personali", es: "Medicamentos personales" },
-    { it: "Contanti e carte di credito", es: "Efectivo y tarjetas" },
+    { it: "Voglia di camminare, di rispettare orari e regole e divertirsi 😄", es: "Ganas de caminar, de respetar horarios y normas y pasarlo bien 😄" },
 ];
 
 const STORAGE_KEY = 'valencia_checklist_status';
