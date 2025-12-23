@@ -251,20 +251,61 @@ function renderMonuments() {
 
     valenciaPOI.forEach(poi => {
         const description = poi[descriptionKey] || poi.descrizione_IT;
+        const idCard = poi.nome.replace(/\s+/g, '-').toLowerCase();
+        const promptMsg = currentLang === 'it' ? 'Vuoi vedere questo punto sulla mappa?' : '¿Quieres ver este punto en el mapa?';
+
         const cardHTML = `
-            <div class="monument-card">
+            <div class="monument-card" id="${idCard}">
                 <img src="${poi.immagine}" alt="${poi.nome}" class="card-image" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+In+Arrivo'">
                 <div class="card-body">
                     <small style="color: ${poiIcons[poi.tipologia]?.color || '#e67e22'}; font-weight: bold; text-transform: uppercase;">
                         ${poiIcons[poi.tipologia]?.icon || ''} ${poi.tipologia}
                     </small>
-                    <h3>${poi.nome}</h3>
+                    <h3 style="cursor:pointer; text-decoration:underline; text-decoration-style: dotted;" 
+                        onclick="if(confirm('${promptMsg}')){ jumpTo('mappa', 'map-container', '${poi.nome}'); }">
+                        ${poi.nome} 📍
+                    </h3>
                     <p>${description}</p>
                 </div>
             </div>`;
         gridContainer.innerHTML += cardHTML;
     });
 }
+
+// ======================================================================
+// FUNZIONE DI NAVIGAZIONE INTERNA (JUMP)
+// ======================================================================
+function jumpTo(sectionId, elementId, poiName = null) {
+    changeSection(sectionId);
+    
+    setTimeout(() => {
+        if (sectionId === 'mappa' && poiName) {
+            focusMarker(poiName);
+        } else {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.outline = "3px solid #e67e22";
+                element.style.borderRadius = "12px";
+                setTimeout(() => element.style.outline = "none", 2000);
+            }
+        }
+    }, 300);
+}
+
+function focusMarker(nome) {
+    markersLayer.eachLayer(layer => {
+        if (layer.options.title === nome) {
+            map.setView(layer.getLatLng(), 15);
+            layer.openPopup();
+        }
+    });
+}
+
+// [I tuoi dati valenciaPOI rimangono invariati qui...]
+const valenciaPOI = [
+    // ... (Mantieni tutti i tuoi oggetti POI qui)
+];
 
 // ======================================================================
 // LOGICA CHECKLIST
@@ -372,28 +413,37 @@ function initMap() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap'
     }).addTo(map);
+    markersLayer.addTo(map);
 }
 
 function addMarkers() {
     if (map === null) return;
-    map.eachLayer(layer => { if (layer instanceof L.Marker) map.removeLayer(layer); });
+    markersLayer.clearLayers();
 
     valenciaPOI.forEach(poi => {
         const desc = currentLang === 'it' ? poi.descrizione_IT : poi.descrizione_ES;
-        // Fix link Google Maps navigazione
-        const gMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${poi.lat},${poi.lon}`;
+        const idCard = poi.nome.replace(/\s+/g, '-').toLowerCase();
+        const btnText = currentLang === 'it' ? 'Vai alla Card' : 'Ver detalles';
+        const gMapsUrl = `https://www.google.com/maps/search/?api=1&query=${poi.lat},${poi.lon}`;
 
-        L.marker([poi.lat, poi.lon], { icon: createCustomIcon(poi.tipologia) })
-            .addTo(map)
-            .bindPopup(`
-                <div style="text-align: center; min-width: 180px; font-family: sans-serif;">
-                    <b style="font-size: 1.1rem;">${poi.nome}</b><br>
-                    <p style="font-size: 0.9rem; margin: 8px 0; color: #555;">${desc.substring(0, 80)}...</p>
-                    <a href="${gMapsUrl}" target="_blank" 
-                       style="display: block; background: #e67e22; color: white; text-decoration: none; padding: 8px; border-radius: 4px; font-weight: bold; margin-top: 5px;">
-                       📍 Naviga con Google Maps
-                    </a>
-                </div>`);
+        L.marker([poi.lat, poi.lon], { 
+            icon: createCustomIcon(poi.tipologia),
+            title: poi.nome 
+        })
+        .addTo(markersLayer)
+        .bindPopup(`
+            <div style="text-align: center; min-width: 180px; font-family: sans-serif;">
+                <b style="font-size: 1.1rem;">${poi.nome}</b><br>
+                <p style="font-size: 0.85rem; margin: 8px 0; color: #555;">${desc.substring(0, 60)}...</p>
+                <a href="${gMapsUrl}" target="_blank" 
+                   style="display: block; background: #e67e22; color: white; text-decoration: none; padding: 6px; border-radius: 4px; font-weight: bold; margin-bottom: 5px; font-size: 0.8rem;">
+                   📍 Google Maps
+                </a>
+                <button onclick="jumpTo('punti-di-interesse', '${idCard}')" 
+                   style="width: 100%; background: #34495e; color: white; border: none; padding: 6px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.8rem;">
+                   📖 ${btnText}
+                </button>
+            </div>`);
     });
 }
 
