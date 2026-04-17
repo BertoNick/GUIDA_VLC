@@ -38,6 +38,7 @@
         <div class="menu-item" data-section="cultura" data-it="CULTURA" data-es="CULTURA">CULTURA</div>
         <div class="menu-item" data-section="punti-di-interesse" data-it="PUNTI DI INTERESSE" data-es="PUNTOS DE INTERÉS">PUNTI DI INTERESSE</div> 
         <div class="menu-item" data-section="mappa" data-it="MAPPA" data-es="MAPA">MAPPA</div>
+        <div class="menu-item" data-section="programma" data-it="PROGRAMMA" data-es="PROGRAMA">PROGRAMMA</div>
         <div class="menu-item" data-section="checklist" data-it="CHECKLIST" data-es="LISTA DE VERIFICACIÓN">CHECKLIST</div>
     </div>
 
@@ -86,7 +87,7 @@
         </section>
 
         <section id="mappa" class="section">
-            <h2 data-it="Mappa Interattiva 🗺️" data-es="Mapa Interactivo 🗺️">Mappa Interattiva 🗺️</h2>
+            <h2 data-it="Mappa Interattiva" data-es="Mapa Interactivo">Mappa Interattiva</h2>
             <div id="map-container"></div>
         </section>
 
@@ -297,6 +298,55 @@
         </div>
     </div>
 </section>
+<section id="programma" class="section">
+        <h2 data-it="Programma di Viaggio" data-es="Programa de Viaje">Programma di Viaggio</h2>
+        
+        <div class="itinerary-container">
+            
+            <details class="day-card" open>
+                <summary data-it="MARTEDÌ 21/04 - Arrivo" data-es="MARTES 21/04 - Llegada">MARTEDÌ 21/04 - Arrivo</summary>
+                <div class="day-content">
+                    <div class="event"><span class="time">04:30</span><p>Ritrovo Malpensa T1 porta 15 <a href="https://www.google.com/maps/@45.6262809.8.7129797,19z/data=!5m1!1e1" target="_blank" class="map-btn">Mappa</a></p></div>
+                    <div class="event"><span class="time">07:05</span><p>Volo Ryanair FR1444 ✈️</p></div>
+                    <div class="event"><span class="time">11:00</span><p>Arrivo in hotel, deposito bagagli e acquisto abbonamenti</p></div>
+                    <div class="event"><span class="time">Pomm.</span><p>Visita a piedi del centro storico <a href="#" onclick="showSection('storia')" class="app-link">Leggi la Storia</a></p></div>
+                    <div class="event highlight"><span class="time">19:30</span><p>Check-in <a href="#" onclick="showSection('mappa')" class="app-link">Hotel Camplus 🏨</a></p></div>
+                    <div class="event"><span class="time">21:00</span><p>Cena in hotel 🍴</p></div>
+                </div>
+            </details>
+
+            <details class="day-card">
+                <summary data-it="MERCOLEDÌ 22/04 - Centro e Mare" data-es="MIÉRCOLES 22/04 - Centro y Mar">MERCOLEDÌ 22/04 - Centro e Mare</summary>
+                <div class="day-content">
+                    <div class="event"><span class="time">08:45</span><p>Visita <a href="#" onclick="showSection('punti-di-interesse')" class="app-link">Mercato Centrale e Lonja</a></p></div>
+                    <div class="event"><span class="time">11:30</span><p>Visita Cattedrale <a href="#" onclick="showSection('simboli')" class="app-link">Simboli di Valencia</a></p></div>
+                    <div class="event highlight"><span class="time">14:00</span><p>Pranzo Paella: <a href="#" onclick="showSection('mappa')" class="app-link">La Ferradura 🥘</a></p></div>
+                    <div class="event"><span class="time">15:30</span><p>Visita <a href="#" onclick="showSection('mappa')" class="app-link">Casa-Museo Blasco Ibáñez</a> e spiaggia</p></div>
+                    <div class="event"><span class="time">21:30</span><p>Passeggiata serale centro storico</p></div>
+                </div>
+            </details>
+
+            <details class="day-card">
+                <summary data-it="GIOVEDÌ 23/04 - Scienza e Fallas" data-es="JUEVES 23/04 - Ciencia y Fallas">GIOVEDÌ 23/04 - Scienza e Fallas</summary>
+                <div class="day-content">
+                    <div class="event"><span class="time">10:00</span><p>Museo delle Scienze Principe Felipe</p></div>
+                    <div class="event"><span class="time">13:00</span><p>Visita Museo Fallero <a href="#" onclick="showSection('simboli')" class="app-link">Cos'è una Falla?</a></p></div>
+                    <div class="event highlight"><span class="time">15:30</span><p>Ingresso <a href="#" onclick="showSection('mappa')" class="app-link">Oceanogràfic 🐬</a></p></div>
+                    <div class="event"><span class="time">21:00</span><p>Cena in hotel</p></div>
+                </div>
+            </details>
+
+            <details class="day-card">
+                <summary data-it="VENERDÌ 24/04 - Rientro" data-es="VIERNES 24/04 - Regreso">VENERDÌ 24/04 - Rientro</summary>
+                <div class="day-content">
+                    <div class="event"><span class="time">10:00</span><p>Tempo libero per shopping o ultima visita centro</p></div>
+                    <div class="event"><span class="time">14:30</span><p>Transfer privato per l'aeroporto</p></div>
+                    <div class="event"><span class="time">17:20</span><p>Volo Ryanair FR4632 ✈️</p></div>
+                    <div class="event"><span class="time">21:00</span><p>Arrivo previsto a Varese</p></div>
+                </div>
+            </details>
+        </div>
+    </section>
 
         <section id="checklist" class="section">
             <h2 data-it="Checklist documenti&bagagli" data-es="Lista de Verificación documentos y maletas">Checklist & Documenti</h2>

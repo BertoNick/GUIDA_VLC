@@ -354,3 +354,99 @@ body {
     font-size: 1.2rem;
     color: var(--colore-rosso);
 }
+/* --- AGGIUNTA FINALE --- */
+
+.itinerary-container {
+    padding: 15px;
+    background-color: #f9f9f9; /* Sfondo leggermente grigio per staccare */
+}
+
+.day-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+
+/* Rimuove la freccetta standard di Chrome/Safari per usare uno stile pulito */
+.day-card summary {
+    padding: 15px;
+    background: #e67e22; /* Arancione Valencia */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none;
+    outline: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.day-content {
+    padding: 15px;
+}
+
+/* Singolo evento del programma */
+.event {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #ddd;
+    line-height: 1.4;
+}
+
+.event:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Orario */
+.time {
+    font-weight: bold;
+    color: #e67e22;
+    min-width: 65px;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+/* Evidenziazione per check-in o momenti chiave */
+.event.highlight {
+    background: #fff5eb;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #e67e22;
+}
+
+/* Link interni (showSection) */
+.app-link {
+    color: #2980b9;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Pulsante per Google Maps */
+.map-btn {
+    display: inline-block;
+    background: #3498db;
+    color: white !important;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.75em;
+    text-decoration: none;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* Responsive: testo leggermente più grande sui telefoni */
+@media (max-width: 480px) {
+    .event p {
+        font-size: 0.95em;
+    }
+}

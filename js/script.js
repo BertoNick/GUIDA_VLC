@@ -62,6 +62,42 @@ function focusMarker(nome) {
 // ======================================================================
 const valenciaPOI = [
     {
+        nome: "Hotel Camplus Valencia Towers",
+        lat: 39.500115, 
+        lon: -0.400300,
+        immagine: "img/hotel.jpg", // Assicurati di avere una foto o usa una generica
+        tipologia: "utility",    
+        descrizione_IT: "Il nostro hotel di riferimento. Punto di ritrovo per colazioni e cene. Fermata metro: Empalme.",
+        descrizione_ES: "Nuestro hotel de referencia. Punto de encuentro para desayunos y cenas. Parada de metro: Empalme."
+    },
+    {
+        nome: "Ristorante La Ferradura",
+        lat: 39.488473, 
+        lon: -0.325491,
+        immagine: "img/paella.jpg",
+        tipologia: "gastronomia",    
+        descrizione_IT: "Ristorante tipico sulla spiaggia della Malvarrosa. Qui degusteremo la vera Paella Valenciana.",
+        descrizione_ES: "Restaurante típico en la playa de la Malvarrosa. Aquí degustaremos la verdadera Paella Valenciana."
+    },
+    {
+        nome: "Casa-Museo di Blasco Ibáñez",
+        lat: 39.482678, 
+        lon: -0.325933,
+        immagine: "img/blasco.jpg",
+        tipologia: "cultura",    
+        descrizione_IT: "Villa storica dello scrittore Vicente Blasco Ibáñez, situata di fronte alla spiaggia della Malvarrosa.",
+        descrizione_ES: "Chalet histórico del escritor Vicente Blasco Ibáñez, situado frente a la playa de la Malvarrosa."
+    },
+    {
+        nome: "Oceanogràfic",
+        lat: 39.452683, 
+        lon: -0.347966,
+        immagine: "img/oceanografic.jpg",
+        tipologia: "architettura",    
+        descrizione_IT: "L'acquario più grande d'Europa. Un viaggio attraverso i principali ecosistemi marini del pianeta.",
+        descrizione_ES: "El acuario más grande de Europa. Un viaje a través de los principales ecosistemas marinos del planeta."
+    },
+    {
         nome: "Città delle Arti e delle Scienze",
         lat: 39.45617, 
         lon: -0.3521,
