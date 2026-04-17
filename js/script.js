@@ -65,19 +65,19 @@ const valenciaPOI = [
         nome: "Hotel Camplus Valencia Towers",
         lat: 39.500115, 
         lon: -0.400300,
-        immagine: "img/hotel.jpg", // Assicurati di avere una foto o usa una generica
+        immagine: "img/camplus.jpg", // Assicurati di avere una foto o usa una generica
         tipologia: "utility",    
-        descrizione_IT: "Il nostro hotel di riferimento. Punto di ritrovo per colazioni e cene. Fermata metro: Empalme.",
-        descrizione_ES: "Nuestro hotel de referencia. Punto de encuentro para desayunos y cenas. Parada de metro: Empalme."
+        descrizione_IT: "Il nostro hotel. Fermata metro: Empalme.",
+        descrizione_ES: "Nuestro hotel. Parada de metro: Empalme."
     },
     {
         nome: "Ristorante La Ferradura",
         lat: 39.488473, 
         lon: -0.325491,
-        immagine: "img/paella.jpg",
+        immagine: "img/ferradura.jpg",
         tipologia: "gastronomia",    
-        descrizione_IT: "Ristorante tipico sulla spiaggia della Malvarrosa. Qui degusteremo la vera Paella Valenciana.",
-        descrizione_ES: "Restaurante típico en la playa de la Malvarrosa. Aquí degustaremos la verdadera Paella Valenciana."
+        descrizione_IT: "Ristorante tipico sulla spiaggia della Malvarrosa. Qui degusteremo la vera paella valenciana e di mare.",
+        descrizione_ES: "Restaurante típico en la playa de la Malvarrosa. Aquí degustaremos la verdadera paella valenciana y de marisco."
     },
     {
         nome: "Casa-Museo di Blasco Ibáñez",
@@ -85,8 +85,8 @@ const valenciaPOI = [
         lon: -0.325933,
         immagine: "img/blasco.jpg",
         tipologia: "cultura",    
-        descrizione_IT: "Villa storica dello scrittore Vicente Blasco Ibáñez, situata di fronte alla spiaggia della Malvarrosa.",
-        descrizione_ES: "Chalet histórico del escritor Vicente Blasco Ibáñez, situado frente a la playa de la Malvarrosa."
+        descrizione_IT: "Villa storica dello scrittore e politico valenciano Vicente Blasco Ibáñez, situata di fronte alla spiaggia della Malvarrosa.",
+        descrizione_ES: "Chalet histórico del escritor y politico valenciano Vicente Blasco Ibáñez, situado frente a la playa de la Malvarrosa."
     },
     {
         nome: "Oceanogràfic",
