@@ -28,7 +28,7 @@ Distribuito sotto licenza MIT. Vedi il file `LICENSE` per maggiori dettagli.
 
 ---
 *Creato con ❤️ per gli studenti della gita di Valencia 2026.*
-
+---
 
 
 
@@ -58,7 +58,7 @@ Distribuido bajo la licencia MIT. Consulta el archivo `LICENSE` para más detall
 
 ---
 *Creado con ❤️ para los estudiantes del viaje escolar a Valencia 2026.*
-
+---
 
 
 
