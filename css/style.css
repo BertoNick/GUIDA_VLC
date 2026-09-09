@@ -450,3 +450,9 @@ body {
         font-size: 0.95em;
     }
 }
+/* Titolo card cliccabile (porta alla mappa) */
+.card-title {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+}
