@@ -12,8 +12,22 @@ const poiIcons = {
     aeroporto: { icon: "✈️", color: "#95a5a6" },
     sport: { icon: "🏟️", color: "#d35400" },
     natura: { icon: "🌳", color: "#27ae60" },
+    cultura: { icon: "🎭", color: "#8e44ad" },
+    gastronomia: { icon: "🥘", color: "#c0392b" },
+    utility: { icon: "🏨", color: "#7f8c8d" },
     default: { icon: "📍", color: "#34495e" }
 };
+
+// Trasforma il nome in un id sicuro per HTML/JS (niente apostrofi, accenti o spazi)
+function slugify(nome) {
+    return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+               .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+// Segnaposto locale (SVG) usato se una foto manca: non dipende da servizi esterni
+const PLACEHOLDER_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" font-family="sans-serif" font-size="28" fill="#999" text-anchor="middle" dominant-baseline="middle">Foto in arrivo</text></svg>'
+);
 
 function createCustomIcon(tipologia) {
     const config = poiIcons[tipologia] || poiIcons.default;
@@ -29,12 +43,12 @@ function createCustomIcon(tipologia) {
 // ======================================================================
 // FUNZIONE DI NAVIGAZIONE INTERNA (JUMP)
 // ======================================================================
-function jumpTo(sectionId, elementId, poiName = null) {
+function jumpTo(sectionId, elementId, poiId = null) {
     changeSection(sectionId);
     
     setTimeout(() => {
-        if (sectionId === 'mappa' && poiName) {
-            focusMarker(poiName);
+        if (sectionId === 'mappa' && poiId) {
+            focusMarker(poiId);
         } else {
             const element = document.getElementById(elementId);
             if (element) {
@@ -47,10 +61,10 @@ function jumpTo(sectionId, elementId, poiName = null) {
     }, 300);
 }
 
-function focusMarker(nome) {
+function focusMarker(poiId) {
     if (!map) return;
     markersLayer.eachLayer(layer => {
-        if (layer.options.title === nome) {
+        if (layer.options.poiId === poiId) {
             map.setView(layer.getLatLng(), 15);
             layer.openPopup();
         }
@@ -71,7 +85,7 @@ const valenciaPOI = [
         descrizione_ES: "Nuestro hotel. Parada de metro: Empalme."
     },
     {
-        nome: "Ristorante La Ferradura",
+        nome: "Restaurante La Ferradura",
         lat: 39.488473, 
         lon: -0.325491,
         immagine: "img/ferradura.jpg",
@@ -80,13 +94,13 @@ const valenciaPOI = [
         descrizione_ES: "Restaurante típico en la playa de la Malvarrosa. Aquí degustaremos la verdadera paella valenciana y de marisco."
     },
     {
-        nome: "Casa-Museo di Blasco Ibáñez",
+        nome: "Casa-Museo Blasco Ibáñez",
         lat: 39.482678, 
         lon: -0.325933,
         immagine: "img/blasco.jpg",
         tipologia: "cultura",    
         descrizione_IT: "Villa storica dello scrittore e politico valenciano Vicente Blasco Ibáñez, situata di fronte alla spiaggia della Malvarrosa.",
-        descrizione_ES: "Chalet histórico del escritor y politico valenciano Vicente Blasco Ibáñez, situado frente a la playa de la Malvarrosa."
+        descrizione_ES: "Chalet histórico del escritor y político valenciano Vicente Blasco Ibáñez, situado frente a la playa de la Malvarrosa."
     },
     {
         nome: "Oceanogràfic",
@@ -98,7 +112,7 @@ const valenciaPOI = [
         descrizione_ES: "El acuario más grande de Europa. Un viaje a través de los principales ecosistemas marinos del planeta."
     },
     {
-        nome: "Città delle Arti e delle Scienze",
+        nome: "Ciudad de las Artes y las Ciencias",
         lat: 39.45617, 
         lon: -0.3521,
         immagine: "img/cac.jpg",
@@ -107,7 +121,7 @@ const valenciaPOI = [
         descrizione_ES: "Un complejo arquitectónico de estilo neofuturista diseñado por Santiago Calatrava e inaugurado en 1998. Es el símbolo contemporáneo de la ciudad."
     },
     {
-        nome: "Mercato Centrale",
+        nome: "Mercado Central",
         lat: 39.47407, 
         lon: -0.37907,
         immagine: "img/mercato.jpg",
@@ -134,7 +148,7 @@ const valenciaPOI = [
         descrizione_ES: "Antigua Bolsa de la Seda, construida en el siglo XV, obra maestra del gótico civil valenciano y Patrimonio de la Humanidad de la UNESCO."
     },
     {
-        nome: "Aeroporto",
+        nome: "Aeropuerto de Valencia",
         lat: 39.49196, 
         lon: -0.48223,
         immagine: "img/aeroporto.jpg",
@@ -143,16 +157,16 @@ const valenciaPOI = [
         descrizione_ES: "Aeropuerto Internacional de Valencia-Manises."
     },
     {
-        nome: "Cattedrale",
+        nome: "Catedral de Valencia",
         lat: 39.47536, 
         lon: -0.37548,
         immagine: "img/cattedrale.jpeg",
         tipologia: "monumento",
         descrizione_IT: "La Cattedrale di Valencia, conosciuta come la Seu, è un tempio prevalentemente in stile gotico valenciano consacrato nel 1238, che custodisce tesori come il Santo Graal e importanti dipinti del Quattrocento. La sua importanza storica risiede sia nella fusione di stili architettonici, sia nell'essere stata elevata a sede metropolitana sotto l'influenza della famiglia Borgia.",
-        descrizione_ES: "La Catedral de Valencia, conocida como la Seu, es un templo de predominio gótico valenciano consagrado en 1238 que alberga tesoros como el Santo Cáliz y destacadas pinturas del Quattrocento. Su importancia histórica radica tanto en su mezcla de estilos arquitectónicos como en haber sido elevada a sede metropolitana bajo la influencia de la familia Borja.."
+        descrizione_ES: "La Catedral de Valencia, conocida como la Seu, es un templo de predominio gótico valenciano consagrado en 1238 que alberga tesoros como el Santo Cáliz y destacadas pinturas del Quattrocento. Su importancia histórica radica tanto en su mezcla de estilos arquitectónicos como en haber sido elevada a sede metropolitana bajo la influencia de la familia Borja."
     },
     {
-        nome: "Piazza dell’Ayuntamiento",
+        nome: "Plaza del Ayuntamiento",
         lat: 39.46969,
         lon: -0.37641,
         immagine: "img/ayuntamiento.jpg",
@@ -176,10 +190,10 @@ const valenciaPOI = [
         immagine: "img/veles.jpg",
         tipologia: "architettura",
         descrizione_IT: "Inaugurato nel 2006, l'edificio Veles e Vents è un edificio minimalista, progettato originariamente per l'America's Cup. Situato nella Marina di Valencia, questo iconico belvedere dalle ampie terrazze bianche è stato anche un punto di osservazione privilegiato durante gli anni in cui il circuito cittadino del GP di Formula 1 attraversava le strade del porto, diventando il simbolo della modernità marittima della città.",
-        descrizione_ES: "Inaugurado en 2006, el edificio Veles e Vents es una obra minimalista, diseñada originalmente para la America's Cup. Situado en la Marina de Valencia, este icónico mirador de grandes terrazas blancas fue también un punto de observación privilegiado durante los años en que el circuito urbano del GP de fómula 1 recorría las calles del puerto, convirtiéndose en el símbolo de la modernidad marítima de la ciudad.."
+        descrizione_ES: "Inaugurado en 2006, el edificio Veles e Vents es una obra minimalista, diseñada originalmente para la America's Cup. Situado en la Marina de Valencia, este icónico mirador de grandes terrazas blancas fue también un punto de observación privilegiado durante los años en que el circuito urbano del GP de Fórmula 1 recorría las calles del puerto, convirtiéndose en el símbolo de la modernidad marítima de la ciudad."
     },
     {
-        nome: "Stadio Mestalla",
+        nome: "Estadio de Mestalla",
         lat: 39.47488,
         lon: -0.35847,
         immagine: "img/mestalla.jpg",
@@ -193,7 +207,7 @@ const valenciaPOI = [
         lon: -0.364241,
         immagine: "img/roig.jpeg",
         tipologia: "sport",
-        descrizione_IT: "Inaugurato nel 2025, il Roig Arena è un avanguardistico spazio polifunzionale diventato uno dei centri per eventi più avanzati d'Europa. Con una capacità fino a 20.000 spettatori, questo colossale progetto è stato finanziato interamente da Juan Roig (proprietario di Mercadona) con un investimento di 400 milioni di euro, dotando la città di una sede d'élite per il basket e per i grandi tour internazionali..",
+        descrizione_IT: "Inaugurato nel 2025, il Roig Arena è un avanguardistico spazio polifunzionale diventato uno dei centri per eventi più avanzati d'Europa. Con una capacità fino a 20.000 spettatori, questo colossale progetto è stato finanziato interamente da Juan Roig (proprietario di Mercadona) con un investimento di 400 milioni di euro, dotando la città di una sede d'élite per il basket e per i grandi tour internazionali.",
         descrizione_ES: "Inaugurado en 2025, el Roig Arena es un vanguardista recinto multiusos que se ha convertido en uno de los centros de eventos más avanzados de Europa. Con capacidad para hasta 20.000 espectadores, este colosal proyecto ha sido financiado íntegramente por Juan Roig (propietario de Mercadona) con una inversión de 400 millones de euros, dotando a la ciudad de una sede de élite para el baloncesto y grandes giras internacionales."
     },
     {
@@ -215,7 +229,7 @@ const valenciaPOI = [
         descrizione_ES: "Construido en apenas setenta días para la Exposición Regional de 1909, el Palacio de la Exposición es una deslumbrante muestra del estilo neogótico valenciano. Diseñado por Francisco Mora, el edificio recrea el esplendor del pasado medieval de la ciudad con una exquisita decoración de cerámica, mármol y vidrieras, permaneciendo hoy como uno de los espacios más elegantes para recepciones y eventos institucionales."
     },
     {
-        nome: "Torres de Serrano",
+        nome: "Torres de Serranos",
         lat: 39.47938, 
         lon: -0.37597,
         immagine: "img/serranos.jpg",
@@ -224,7 +238,7 @@ const valenciaPOI = [
         descrizione_ES: "Las Torres de Serranos y su puente homónimo, construidos entre finales del siglo XIV y mediados del XVI, forman uno de los conjuntos monumentales más icónicos de Valencia. Mientras el puente de piedra (1518) servía como entrada noble sobre el río Turia, las torres —obra maestra del gótico valenciano— se alzaban como la puerta principal de la muralla; hoy, este conjunto no solo es un mirador excepcional, sino también el escenario donde cada año se celebra 'la Crida' para dar comienzo a las Fallas."
     },
     {
-        nome: "Torri di Quart",
+        nome: "Torres de Quart",
         lat: 39.47597,
         lon: -0.38385,
         immagine: "img/quart.jpg",
@@ -233,7 +247,7 @@ const valenciaPOI = [
         descrizione_ES: "Las Torres de Quart, construidas en el siglo XV con un imponente estilo gótico tardío, eran la puerta de entrada para quienes venían de Castilla. A diferencia de las de Serranos, su fachada muestra una belleza más austera y guerrera, conservando todavía las huellas y cicatrices de los cañonazos sufridos durante el asedio de las tropas napoleónicas en la Guerra de la Independencia (1808), lo que las convierte en un testimonio vivo de la resistencia de Valencia."
     },
     {
-        nome: "Giardino Botanico",
+        nome: "Jardín Botánico",
         lat: 39.47555, 
         lon: -0.38636,
         immagine: "img/botanico.jpg",
@@ -251,7 +265,7 @@ const valenciaPOI = [
         descrizione_ES: "Situada a escasos kilómetros de la ciudad, la Albufera es el lago de agua dulce más grande de España y un ecosistema de valor incalculable. Este paisaje de arrozales y canales es el escenario de la célebre novela naturalista 'Cañas y Barro', donde Vicente Blasco Ibáñez —considerado a menudo el equivalente español de Giovanni Verga por su crudo realismo social— retrata la lucha del hombre contra un entorno hostil. La obra trasciende la narrativa regional para convertirse en un poderoso símbolo del determinismo: el barro que da vida al arroz es el mismo que atrapa y consume las ambiciones de sus personajes, convirtiendo este 'espejo' de agua en un testamento vivo de la dura historia de la Valencia rural."
     },
     {
-        nome: "Puente de la solidaridad",
+        nome: "Puente de la Solidaridad",
         lat: 39.43851,
         lon: -0.39354,
         immagine: "img/solidaridad.webp",
@@ -266,7 +280,7 @@ const valenciaPOI = [
         immagine: "img/estacion.jpg",
         tipologia: "monumento",
         descrizione_IT: "Inaugurata nel 1917, la Estación del Norte è un gioiello del modernismo valenciano che accoglie i viaggiatori con una facciata decorata da motivi vegetali e arance, simboli dell'agricoltura locale. Oltre alla sua imponente struttura in ferro, la stazione nasconde la 'Sala dei Mosaici', un ambiente estremamente fotogenico interamente rivestito di piastrelle e ceramiche che rendono omaggio al folklore regionale. Questo spazio, antica caffetteria della stazione, è oggi uno degli angoli più iconici e ammirati per la sua bellezza ornamentale e la sua luce.",
-        descrizione_ES: "Inaugurada en 1917, la Estación del Norte es una joya del modernismo valenciano que recibe a los viajeros con una fachada decorada con motivos vegetales y naranjas, símbolos de la agricultura local. Más allá de su imponente estructura de hierro, la estación esconde la 'Sala de los Mosaicos', una estancia sumamente fotogénica revestida por completo de azulejos y cerámicas que rinden homenaje al folclore regional. Este espacio, antigua cafetería de la estación, es hoy un de los rincones más icónicos y admirados por su belleza ornamental y su luz."
+        descrizione_ES: "Inaugurada en 1917, la Estación del Norte es una joya del modernismo valenciano que recibe a los viajeros con una fachada decorada con motivos vegetales y naranjas, símbolos de la agricultura local. Más allá de su imponente estructura de hierro, la estación esconde la 'Sala de los Mosaicos', una estancia sumamente fotogénica revestida por completo de azulejos y cerámicas que rinden homenaje al folclore regional. Este espacio, antigua cafetería de la estación, es hoy uno de los rincones más icónicos y admirados por su belleza ornamental y su luz."
     },
     {
         nome: "Plaza de Toros",
@@ -282,33 +296,63 @@ const valenciaPOI = [
         lat: 39.47387, 
         lon: -0.37626,
         immagine: "img/santa_catalina.jpg",
-        tipologia: "default",
+        tipologia: "gastronomia",
         descrizione_IT: "Situata all'ingresso del pittoresco quartiere del Carmen, la Horchatería Santa Catalina è un tempio della tradizione valenciana con oltre due secoli di storia. Questo locale iconico non è famoso solo per la sua horchata artigianale e i suoi 'fartons', ma anche per la sua spettacolare decorazione in ceramica di Manises, che riveste le pareti con scene colorate che evocano la cultura locale. Sedersi ai suoi tavoli di marmo significa fare un viaggio nel tempo, godendo di un'atmosfera autentica e familiare nel cuore pulsante del centro storico, a pochi passi dall'omonima chiesa gotica.",
-        _descrizione_ES: "Ubicada a las puertas del castizo barrio del Carmen, la Horchatería Santa Catalina es un templo de la tradición valenciana con más de dos siglos de historia. Este local icónico no solo es famoso por su horchata artesana y sus fartons, sino también por su espectacular decoración de cerámica de Manises, que reviste sus paredes con escenas coloridas que evocan la cultura local. Sentarse en sus mesas de mármol es realizar un viaje en el tiempo, disfrutando de una atmósfera auténtica y familiar en pleno corazón del casco antiguo, a solo unos pasos de la iglesia gótica homónima.",
-        get descrizione_ES() {
-            return this._descrizione_ES;
-        },
-        set descrizione_ES(value) {
-            this._descrizione_ES = value;
-        },
+        descrizione_ES: "Ubicada a las puertas del castizo barrio del Carmen, la Horchatería Santa Catalina es un templo de la tradición valenciana con más de dos siglos de historia. Este local icónico no solo es famoso por su horchata artesana y sus fartons, sino también por su espectacular decoración de cerámica de Manises, que reviste sus paredes con escenas coloridas que evocan la cultura local. Sentarse en sus mesas de mármol es realizar un viaje en el tiempo, disfrutando de una atmósfera auténtica y familiar en pleno corazón del casco antiguo, a solo unos pasos de la iglesia gótica homónima."
     },
     {
-        nome: "Parc Gulliver",
+        nome: "Parque Gulliver",
         lat: 39.462732, 
         lon: -0.35949,
         immagine: "img/gulliver.jpeg",
-        tipologia: "monumento",
+        tipologia: "natura",
         descrizione_IT: "Immerso nel Giardino del Turia, il Parco Gulliver è una delle aree gioco più creative e ammirate d'Europa. Ispirato all'opera di Jonathan Swift, il parco presenta una gigantesca figura distesa del naufrago Gulliver, lunga 70 metri, trasformata in un paesaggio di scivoli, rampe e scale. I visitatori, proprio come i lillipuziani del racconto, possono arrampicarsi ed esplorare il corpo del gigante, rendendo l'architettura ludica un'esperienza immersiva. È un punto di riferimento fondamentale per le famiglie e un simbolo del design urbano valenciano che invita a riscoprire la fantasia attraverso il gioco.",
         descrizione_ES: "Enclavado en el Jardín del Turia, el Parque Gulliver es una de las áreas de juegos más creativas y admiradas de Europa. Inspirado en la obra de Jonathan Swift, el parque presenta una gigantesca figura yacente del náufrago Gulliver, de 70 metros de largo, transformada en un paisaje de toboganes, rampas y escaleras. Los visitantes, al igual que los liliputienses del relato, pueden trepar y explorar el cuerpo del gigante, convirtiendo la arquitectura lúdica en una experiencia inmersiva. Es un referente fundamental para las familias y un símbolo del diseño urbano valenciano que invita a redescubrir la fantasía a través del juego."
     },
     {
-        nome: "Centre d'Interpretació Racó de l'Olla - Parc Natural de l'Albufera",
+        nome: "Racó de l'Olla (Parc Natural de l'Albufera)",
         lat: 39.33938, 
         lon: -0.31971,
         immagine: "img/olla.jpeg",
         tipologia: "natura",
         descrizione_IT: "Situato nel cuore del Parco Naturale dell'Albufera, il Racó de l'Olla è un santuario della biodiversità e una tappa obbligatoria per gli amanti della natura. Questa zona di riserva protetta funge da punto di transito e nidificazione per innumerevoli specie di uccelli acquatici, offrendo sentieri didattici e torrette di osservazione con viste panoramiche privilegiate sulle lagune. È il luogo perfetto per staccare dal ritmo urbano e comprendere l'importanza ecologica del litorale valenciano, dove la quiete del paesaggio e il riflesso del sole sull'acqua creano un'atmosfera di pace assoluta.",
         descrizione_ES: "Situado en el corazón del Parque Natural de la Albufera, el Racó de l'Olla es un santuario de biodiversidad y una parada obligatoria para los amantes de la naturaleza. Esta zona de reserva protegida sirve como punto de tránsito y nidificación para innumerables especies de aves acuáticas, ofreciendo senderos didácticos y torres de observación con vistas panorámicas privilegiadas sobre las lagunas. Es el lugar perfecto para desconectar del ritmo urbano y comprender la importancia ecológica del litoral valenciano, donde la quietud del paisaje y el reflejo del sol sobre el agua crean una atmósfera de paz absoluta."
+    },
+    {
+        nome: "Museo de las Ciencias Príncipe Felipe",
+        lat: 39.45464,
+        lon: -0.35241,
+        immagine: "img/museo_ciencias.jpg",
+        tipologia: "cultura",
+        descrizione_IT: "Inaugurato nel 2000 nel cuore della Città delle Arti e delle Scienze, il museo progettato da Calatrava ricorda lo scheletro di un enorme cetaceo di cemento bianco e vetro. Il suo motto, 'Prohibido no tocar' (vietato non toccare), dice tutto: qui la scienza si sperimenta con le mani, tra pendoli, esperimenti di fisica, genetica e spazio, in oltre 26.000 metri quadrati di esposizioni interattive.",
+        descrizione_ES: "Inaugurado en el año 2000 en el corazón de la Ciudad de las Artes y las Ciencias, el museo diseñado por Calatrava recuerda el esqueleto de un enorme cetáceo de hormigón blanco y cristal. Su lema, 'Prohibido no tocar', lo dice todo: aquí la ciencia se experimenta con las manos, entre péndulos, experimentos de física, genética y espacio, en más de 26.000 metros cuadrados de exposiciones interactivas."
+    },
+    {
+        nome: "Museu Faller",
+        lat: 39.45990,
+        lon: -0.35660,
+        immagine: "img/museo_fallero.jpg",
+        tipologia: "cultura",
+        descrizione_IT: "Vicino al Giardino del Turia, in Plaza de Monteolivete, il Museo Fallero custodisce i 'ninots indultats': le figure che ogni anno, dal 1934, il voto popolare salva dalle fiamme della Cremà. Percorrerne le sale significa sfogliare quasi un secolo di storia valenciana raccontata con ironia, tra caricature, mode e personaggi di ogni epoca, oltre ai manifesti ufficiali e agli abiti delle Falleras Mayores.",
+        descrizione_ES: "Junto al Jardín del Turia, en la Plaza de Monteolivete, el Museu Faller custodia los 'ninots indultats': las figuras que cada año, desde 1934, el voto popular salva de las llamas de la Cremà. Recorrer sus salas es hojear casi un siglo de historia valenciana contada con ironía, entre caricaturas, modas y personajes de cada época, además de los carteles oficiales y los trajes de las Falleras Mayores."
+    },
+    {
+        nome: "Plaza de la Virgen",
+        lat: 39.47632,
+        lon: -0.37520,
+        immagine: "img/plaza_virgen.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Qui, dove i coloni romani tracciarono il primo foro, batte ancora il cuore civile e religioso di Valencia. Sulla piazza si affacciano la Porta degli Apostoli della Cattedrale, la Basilica della Virgen de los Desamparados e il Palau de la Generalitat. Al centro, la Fuente del Turia (1976) raffigura il fiume come un gigante disteso, circondato da otto fanciulle che rappresentano le acequias della Huerta. È qui che ogni giovedì a mezzogiorno si riunisce il Tribunal de las Aguas.",
+        descrizione_ES: "Aquí, donde los colonos romanos trazaron el primer foro, sigue latiendo el corazón civil y religioso de Valencia. A la plaza se asoman la Puerta de los Apóstoles de la Catedral, la Basílica de la Virgen de los Desamparados y el Palau de la Generalitat. En el centro, la Fuente del Turia (1976) representa el río como un gigante tumbado, rodeado de ocho doncellas que simbolizan las acequias de la Huerta. Es aquí donde cada jueves a mediodía se reúne el Tribunal de las Aguas."
+    },
+    {
+        nome: "Basílica de la Virgen de los Desamparados",
+        lat: 39.47667,
+        lon: -0.37475,
+        immagine: "img/basilica.jpg",
+        tipologia: "monumento",
+        descrizione_IT: "Costruita tra il 1652 e il 1667, è il primo grande edificio barocco della città e la casa della patrona di Valencia, la Virgen de los Desamparados. La sua pianta ovale è coronata da una cupola affrescata da Antonio Palomino, e un passaggio sopraelevato la collega direttamente alla Cattedrale. I valenciani chiamano affettuosamente la statua 'la Geperudeta' (la gobbetta), per la leggera inclinazione in avanti della figura: a lei sono dedicati i milioni di fiori dell'Ofrenda durante le Fallas.",
+        descrizione_ES: "Construida entre 1652 y 1667, es el primer gran edificio barroco de la ciudad y la casa de la patrona de Valencia, la Virgen de los Desamparados. Su planta ovalada está coronada por una cúpula con frescos de Antonio Palomino, y un pasadizo elevado la comunica directamente con la Catedral. Los valencianos llaman cariñosamente a la imagen 'la Geperudeta' (la jorobadita), por la ligera inclinación hacia delante de la figura: a ella se dedican los millones de flores de la Ofrenda durante las Fallas."
     }
 ];
 
@@ -322,26 +366,41 @@ function renderMonuments() {
     gridContainer.innerHTML = '';
     const descriptionKey = currentLang === 'it' ? 'descrizione_IT' : 'descrizione_ES';
 
-    valenciaPOI.forEach(poi => {
-        const description = poi[descriptionKey] || poi.descrizione_IT;
-        const idCard = poi.nome.replace(/\s+/g, '-').toLowerCase();
-        const promptMsg = currentLang === 'it' ? 'Vuoi vedere questo punto sulla mappa?' : '¿Quieres ver este punto en el mapa?';
+    const promptMsg = currentLang === 'it' ? 'Vuoi vedere questo punto sulla mappa?' : '¿Quieres ver este punto en el mapa?';
 
-        const cardHTML = `
+    // Costruiamo tutto l'HTML in una volta sola (una sola scrittura nel DOM)
+    gridContainer.innerHTML = valenciaPOI.map(poi => {
+        const description = poi[descriptionKey] || poi.descrizione_IT;
+        const idCard = slugify(poi.nome);
+        const style = poiIcons[poi.tipologia] || poiIcons.default;
+
+        return `
             <div class="monument-card" id="${idCard}">
-                <img src="${poi.immagine}" alt="${poi.nome}" class="card-image" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+In+Arrivo'">
+                <div class="card-image-wrapper">
+                    <img src="${poi.immagine}" alt="${poi.nome}" class="card-image" loading="lazy">
+                </div>
                 <div class="card-body">
-                    <small style="color: ${poiIcons[poi.tipologia]?.color || '#e67e22'}; font-weight: bold; text-transform: uppercase;">
-                        ${poiIcons[poi.tipologia]?.icon || ''} ${poi.tipologia}
+                    <small style="color: ${style.color}; font-weight: bold; text-transform: uppercase;">
+                        ${style.icon} ${poi.tipologia}
                     </small>
-                    <h3 style="cursor:pointer; text-decoration:underline; text-decoration-style: dotted;" 
-                        onclick="if(confirm('${promptMsg}')){ jumpTo('mappa', 'map-container', '${poi.nome}'); }">
+                    <h3 class="card-title" data-poi-id="${idCard}" title="${promptMsg}">
                         ${poi.nome} 📍
                     </h3>
                     <p>${description}</p>
                 </div>
             </div>`;
-        gridContainer.innerHTML += cardHTML;
+    }).join('');
+
+    // Foto mancante -> segnaposto locale
+    gridContainer.querySelectorAll('.card-image').forEach(img => {
+        img.addEventListener('error', () => { img.src = PLACEHOLDER_IMG; }, { once: true });
+    });
+
+    // Click sul titolo -> mappa (niente onclick inline: i nomi con apostrofi non rompono più nulla)
+    gridContainer.querySelectorAll('.card-title').forEach(h3 => {
+        h3.addEventListener('click', () => {
+            if (confirm(promptMsg)) jumpTo('mappa', 'map-container', h3.dataset.poiId);
+        });
     });
 }
 
@@ -350,7 +409,7 @@ function renderMonuments() {
 // ======================================================================
 const checklistData = [
     { it: "Passaporto/Carta d'identità", es: "Pasaporte/DNI" },
-    { it: "carta di credito/debito", es: "Tarjeta de crédito/débito" },
+    { it: "Carta di credito/debito", es: "Tarjeta de crédito/débito" },
     { it: "Denaro in contanti", es: "Dinero en efectivo" },
     { it: "Caricabatterie", es: "Cargador" },
     { it: "Scarpe comode", es: "Zapatos cómodos" },
@@ -362,6 +421,7 @@ const checklistData = [
 ];
 
 const STORAGE_KEY = 'valencia_checklist_status';
+const LANG_KEY = 'valencia_lang';
 
 function loadChecklistStatus() {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -429,6 +489,7 @@ function changeSection(targetSectionId) {
 
 function setLanguage(lang) {
     currentLang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* storage non disponibile */ }
     document.querySelectorAll('.flag').forEach(flag => flag.classList.remove('active'));
     document.querySelector(`.flag.${lang}`).classList.add('active');
     
@@ -461,13 +522,14 @@ function addMarkers() {
 
     valenciaPOI.forEach(poi => {
         const desc = currentLang === 'it' ? poi.descrizione_IT : poi.descrizione_ES;
-        const idCard = poi.nome.replace(/\s+/g, '-').toLowerCase();
+        const idCard = slugify(poi.nome);
         const btnText = currentLang === 'it' ? 'Vai alla Card' : 'Ver detalles';
         const gMapsUrl = `https://www.google.com/maps/search/?api=1&query=${poi.lat},${poi.lon}`;
 
         L.marker([poi.lat, poi.lon], { 
             icon: createCustomIcon(poi.tipologia),
-            title: poi.nome 
+            title: poi.nome,
+            poiId: idCard
         })
         .addTo(markersLayer)
         .bindPopup(`
@@ -524,6 +586,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(resetBtn) resetBtn.addEventListener('click', resetChecklist);
 
     setupTocScrolling();
-    setLanguage('it');
+    let savedLang = 'it';
+    try { savedLang = localStorage.getItem(LANG_KEY) || 'it'; } catch (e) { /* storage non disponibile */ }
+    setLanguage(savedLang);
     changeSection('home');
 });
