@@ -11,6 +11,11 @@
  
 
     <link rel="stylesheet" href="./css/style.css">
+
+    <!-- Web-app installabile (PWA) -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#e73238">
+    <link rel="apple-touch-icon" href="./img/icon-192.png">
 </head>
 <body>
 
@@ -18,11 +23,11 @@
         <div id="title">Guida Valencia</div>
         
         <div id="language-switch">
-            <div class="flag it active" data-lang="it"></div>
-            <div class="flag es" data-lang="es"></div>
+            <div class="flag it active" data-lang="it" role="button" aria-label="Italiano" title="Italiano"></div>
+            <div class="flag es" data-lang="es" role="button" aria-label="Español" title="Español"></div>
         </div>
 
-        <div class="menu-icon" id="menu-toggle">
+        <div class="menu-icon" id="menu-toggle" role="button" aria-label="Menu" title="Menu">
             <div></div>
             <div></div>
             <div></div>
@@ -38,22 +43,25 @@
         <div class="menu-item" data-section="cultura" data-it="CULTURA" data-es="CULTURA">CULTURA</div>
         <div class="menu-item" data-section="punti-di-interesse" data-it="PUNTI DI INTERESSE" data-es="PUNTOS DE INTERÉS">PUNTI DI INTERESSE</div> 
         <div class="menu-item" data-section="mappa" data-it="MAPPA" data-es="MAPA">MAPPA</div>
+        <!-- Voce nascosta insieme alla sezione Programma (vedi più in basso, prima della Checklist)
         <div class="menu-item" data-section="programma" data-it="PROGRAMMA" data-es="PROGRAMA">PROGRAMMA</div>
+        -->
         <div class="menu-item" data-section="checklist" data-it="CHECKLIST" data-es="LISTA DE VERIFICACIÓN">CHECKLIST</div>
     </div>
 
     <main id="main-content">
 
-        <section id="inno" class="section active">
+        <section id="inno" class="section">
             <h2 data-it="Inno della Comunità Valenciana" data-es="Himno de la Comunidad Valenciana 🇪🇸">Inno della Comunità Valenciana</h2>
             <p data-it="L'identità della regione è racchiusa con orgoglio nell’<b>Inno della Comunità Valenciana</b>, composto originariamente per l'Esposizione Regionale del <b>1909</b>. L'opera, nata dal genio del musicista <b>José Serrano</b> e dalle parole di <b>Maximiliano Thous</b>, si distingue per i suoi versi iniziali — <b>’Per a ofrenar noves glòries a Espanya’</b> — che sottolineano il legame storico e culturale con la nazione. Adottato ufficialmente nel <b>1984</b>, l'inno viene eseguito solennemente durante le cerimonie più sentite, come la festa del <b>9 ottobre</b> o durante l'emozionante chiusura delle <b>Fallas</b>, rappresentando un momento di profonda unità e commozione per tutto il popolo valenciano."
                data-es="La identidad de la región se refleja con orgullo en el <b>Himno de la Comunidad Valenciana</b>, compuesto originalmente para la Exposición Regional de <b>1909</b>. La obra, fruto del genio del músico <b>José Serrano</b> y de la letra de <b>Maximiliano Thous</b>, destaca por sus versos iniciales — <b>’Per a ofrenar noves glòries a Espanya’</b> — que subrayan el vínculo histórico y cultural con la nación. Adoptado oficialmente en <b>1984</b>, el himno suena solemnemente en las ceremonias más señaladas, como la festividad del <b>9 de octubre</b> o durante el emotivo cierre de las <b>Fallas</b>, representando un momento de profunda unión y emoción para todo el pueblo valenciano.">L'identità della regione è racchiusa con orgoglio nell’<b>Inno della Comunità Valenciana</b>, composto...</p>
             <div class="video-container">
-                <h3 data-it="YouTube" data-es="YouTube">Inno di Valencia</h3>
+                <h3 data-it="Inno di Valencia" data-es="Himno de Valencia">Inno di Valencia</h3>
                 <div class="iframe-wrapper">
                     <iframe 
                         src="https://www.youtube.com/embed/ONus75YOOaU" 
                         title="Himno de Valencia" 
+                        loading="lazy" 
                         frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
@@ -61,7 +69,7 @@
                 </div>
             </div>
             <div class="spotify-container">
-                <h3 data-it="Spotify" data-es="Spotify">Musica e Atmosfera</h3>
+                <h3 data-it="Musica e atmosfera" data-es="Música y ambiente">Musica e atmosfera</h3>
                     <iframe 
                         style="border-radius:12px" 
                         src="https://open.spotify.com/embed/track/0X8i8Vj0PjG1E2Wq8q6X2z?utm_source=generator"                        width="100%" 
@@ -78,7 +86,9 @@
         
         <section id="home" class="section active">
             <h2 data-it="Benvenuto a Valencia! 🇪🇸" data-es="¡Bienvenido/a a Valencia! 🇪🇸">Benvenuto a Valencia! 🇪🇸</h2>
-            <p data-it="Esplora la web-app e lasciati guidare attraversdo la storia, i simboli e la cultura di Valencia!" data-es="¡Explora la web-app y déjate guiar a través de la historia, los símbolos y la cultura de Valencia!">Esplora la web-app e lasciati guidare attraversdo la storia, i simboli e la cultura di Valencia!</p>
+            <p data-it="Fondata dai Romani nel <b>138 a.C.</b> su un'isola del fiume Turia, Valencia è oggi la terza città di Spagna: circa 800.000 abitanti, uno dei porti più trafficati del Mediterraneo e trecento giorni di sole all'anno. Il centro storico gotico, il letto del fiume trasformato in un <b>giardino lungo nove chilometri</b>, la <b>Città delle Arti e delle Scienze</b> di Calatrava e le spiagge della Malvarrosa raccontano una città che vive tra il mare, la Huerta e il fuoco delle <b>Fallas</b>. Qui sono nate la paella e l'horchata, e qui, ogni giovedì da oltre mille anni, si riunisce il Tribunal de las Aguas."
+               data-es="Fundada por los romanos en el <b>138 a.C.</b> sobre una isla del río Turia, Valencia es hoy la tercera ciudad de España: unos 800.000 habitantes, uno de los puertos con más tráfico del Mediterráneo y trescientos días de sol al año. El casco antiguo gótico, el cauce del río convertido en un <b>jardín de nueve kilómetros</b>, la <b>Ciudad de las Artes y las Ciencias</b> de Calatrava y las playas de la Malvarrosa cuentan la historia de una ciudad que vive entre el mar, la Huerta y el fuego de las <b>Fallas</b>. Aquí nacieron la paella y la horchata, y aquí, cada jueves desde hace más de mil años, se reúne el Tribunal de las Aguas.">Fondata dai Romani nel <b>138 a.C.</b> su un'isola del fiume Turia...</p>
+            <p data-it="Esplora la web-app e lasciati guidare attraverso la storia, i simboli e la cultura di Valencia!" data-es="¡Explora la web-app y déjate guiar a través de la historia, los símbolos y la cultura de Valencia!">Esplora la web-app e lasciati guidare attraverso la storia, i simboli e la cultura di Valencia!</p>
             
             <div class="home-hero-container">
                 <img src="img/homepage.jpg" alt="Valencia" class="home-image">
@@ -122,24 +132,24 @@
 
     <h3 id="storia-araba" data-it="3. Balansiya, epoca araba" data-es="3. Balansiya, época árabe">3. Balansiya, epoca araba</h3>
     <p data-it="Con l'arrivo dei musulmani nel 711, la città divenne Balansiya. Sotto il regno delle Taifas, conobbe uno splendore senza precedenti: vennero erette nuove mura e la pianura circostante fu solcata da un ingegnoso sistema di irrigazione, la <b>Huerta</b>, che ancora oggi è il polmone verde della regione. Legata indissolubilmente a questo sistema è l’istituzione del <b>Tribunal de las Aguas</b>, la cui origine ipotizzata risale al <b>960</b> (epoca del califfato). Si tratta di un tribunale consuetudinario che gestisce i conflitti sull'irrigazione in modo rapido e orale. Ancora oggi, ogni <b>giovedì alle 12:00</b>, i membri si riuniscono presso la <b>Porta degli Apostoli della Cattedrale</b> per celebrare i processi in lingua valenciana. Per il suo valore storico e democratico, è stato dichiarato <b>Patrimonio Immateriale dell'Umanità</b> dall’UNESCO. Nonostante la parentesi epica del <b>Cid Campeador</b>, che conquistò la città nel 1094, Valencia rimase un gioiello islamico fino al <b>9 ottobre 1238</b>, quando il re <b>Giacomo I d'Aragona</b> la riconquistò definitivamente. Poche le testimonianze architettoniche rimaste, mentre l’influenza araba si fa ancora sentire in molti <b>toponimi</b>: Ruzafa, quartiere recentemente riqualificato, era il termine arabo per 'giardini'."
-       data-es="Con la llegada de los los musulmanes en el 711, la ciudad se convirtió en Balansiya. Bajo el reino de las Taifas, alcanzó un esplendor sin precedentes: se erigieron nuevas murallas y la llanura circostante fue surcada por un ingenioso sistema de riego, la <b>Huerta</b>, que aún hoy es el pulmón verde de la región. Vinculada a esta red de acequias surge el <b>Tribunal de las Aguas</b>, cuya fundación hipotética se sitúa en el año <b>960</b>. Es una institución de justicia encargada de dirimir los conflictos por el agua de forma oral y rápida. A día de hoy, el Tribunal sigue funcionando y se reúne <b>cada jueves a las 12:00</b> en la <b>Puerta de los Apóstoles de la Catedral</b>, un ritual vivo que ha sido designado <b>Patrimonio Cultural Inmaterial de la Humanidad</b>. Pese al paréntesis épico del <b>Cid Campeador</b>, que tomó la ciudad en 1094, Valencia siguió siendo una joya islámica hasta el día <b>9 de octubre 1238</b>, cuando el rey <b>Jaime I de Aragón</b> la reconquistó definitivamente. Pocas son las muestras arquitectónicas que permanecen, mientras que la influencia árabe todavía se hace sentir en muchos <b>topónimos</b>: Ruzafa, un barrio recientemente rehabilitado, era el término árabe para 'jardines'.">
+       data-es="Con la llegada de los musulmanes en el 711, la ciudad se convirtió en Balansiya. Bajo el reino de las Taifas, alcanzó un esplendor sin precedentes: se erigieron nuevas murallas y la llanura circundante fue surcada por un ingenioso sistema de riego, la <b>Huerta</b>, que aún hoy es el pulmón verde de la región. Vinculada a esta red de acequias surge el <b>Tribunal de las Aguas</b>, cuya fundación hipotética se sitúa en el año <b>960</b>. Es una institución de justicia encargada de dirimir los conflictos por el agua de forma oral y rápida. A día de hoy, el Tribunal sigue funcionando y se reúne <b>cada jueves a las 12:00</b> en la <b>Puerta de los Apóstoles de la Catedral</b>, un ritual vivo que ha sido designado <b>Patrimonio Cultural Inmaterial de la Humanidad</b>. Pese al paréntesis épico del <b>Cid Campeador</b>, que tomó la ciudad en 1094, Valencia siguió siendo una joya islámica hasta el día <b>9 de octubre 1238</b>, cuando el rey <b>Jaime I de Aragón</b> la reconquistó definitivamente. Pocas son las muestras arquitectónicas que permanecen, mientras que la influencia árabe todavía se hace sentir en muchos <b>topónimos</b>: Ruzafa, un barrio recientemente rehabilitado, era el término árabe para 'jardines'.">
     </p>
     <img src="img/tribunal.jpg" alt="Tribunal de las Aguas" class="inline-photo">
 
     <h3 id="storia-siglo-de-oro" data-it="4. Siglo de Oro" data-es="4. Siglo de Oro valenciano">4. Siglo de Oro</h3>
-    <p data-it="Nel XV secolo, Valencia visse la sua epoca di massimo splendore, trasformandosi in un <b>emporio commerciale</b> di primo piano grazie alla fiorente industria della seta. Questo boom economico rese la città un faro culturale e artistico. Sotto la spinta di tale opulenza vennero erette le imponenti <b>Torri di Serranos</b>, l’iconico campanile del <b>Miguelete</b> e la <b>Lonja de la Seda</b>, un capolavoro del gotico civile. Nel 1460, la penna di <b>Joanot Martorell</b> rivoluzionò la letteratura con il Tirant lo Blanch."
-       data-es="En el siglo XV, Valencia vivió su época de mayor gloria, convertida en un <b>emporio comercial</b> gracias a la pujante industria de la seda. Este auge económico transformó la ciudad en un faro cultural y artístico. Bajo este espíritu de opulencia se alzaron las imponentes <b>Torres de Serranos</b>, el icónico <b>Miguelete</b> y la <b>Lonja de la Seda</b>, una obra maestra del gótico civil. En 1460, la pluma de <b>Joanot Martorell</b> revolucionó la literatura con Tirant lo Blanch.">
+    <p data-it="Nel XV secolo, Valencia visse la sua epoca di massimo splendore, trasformandosi in un <b>emporio commerciale</b> di primo piano grazie alla fiorente industria della seta. Questo boom economico rese la città un faro culturale e artistico. Sotto la spinta di tale opulenza vennero erette le imponenti <b>Torri di Serranos</b>, l’iconico campanile del <b>Miguelete</b> e la <b>Lonja de la Seda</b>, un capolavoro del gotico civile. Fu in questo clima che <b>Joanot Martorell</b> scrisse il Tirant lo Blanch, iniziato nel 1460 e stampato nel 1490: un romanzo cavalleresco che rivoluzionò la letteratura."
+       data-es="En el siglo XV, Valencia vivió su época de mayor gloria, convertida en un <b>emporio comercial</b> gracias a la pujante industria de la seda. Este auge económico transformó la ciudad en un faro cultural y artístico. Bajo este espíritu de opulencia se alzaron las imponentes <b>Torres de Serranos</b>, el icónico <b>Miguelete</b> y la <b>Lonja de la Seda</b>, una obra maestra del gótico civil. Fue en este clima cuando <b>Joanot Martorell</b> escribió Tirant lo Blanch, iniciado en 1460 e impreso en 1490: una novela caballeresca que revolucionó la literatura.">
     </p>
     <img src="img/lonja.jpg" alt="Lonja de la Seda" class="inline-photo">
 
     <h3 id="storia-moderna" data-it="5. Epoca Moderna" data-es="5. Edad Moderna">5. Epoca Moderna</h3>
-    <p data-it="L’Età Moderna portò tempi di grandi cambiamenti, segnati dalla perdita dei 'Fueros' nel 1707. Uno dei capitoli più singolari avvenne nel <b>1812</b>, durante l’invasione napoleonica. Dopo un feroce assedio, il <b>maresciallo Suchet</b> espugnò la città e la trasformò nella <b>sede della corte di Giuseppe I Bonaparte</b>. Durante questo breve periodo, Valencia esercitò il ruolo di capitale della Spagna occupata, lasciando un’impronta di riforme urbanistiche e arie neoclassiche."
-       data-es="La Edad Moderna trajo tiempos de cambio y conflicto, marcados por la pérdida de los fueros en 1707. Uno de los capítulos más singulares ocurrió en <b>1812</b>, durante la invasión napoleónica. Tras un feroz asedio, el <b>mariscal Suchet</b> tomó la ciudad y la convirtió en <b>sede de la corte de José I Bonaparte</b>. Durante ese breve periodo, Valencia ejerció como capital de la España ocupada, dejando una huella de reformas urbanísticas y aires neoclásicos.">
+    <p data-it="L’Età Moderna portò tempi di grandi cambiamenti, segnati dalla perdita dei 'Fueros' nel 1707. Uno dei capitoli più singolari avvenne nel <b>1812</b>, durante l’invasione napoleonica. Dopo un feroce assedio, il <b>maresciallo Suchet</b> espugnò la città, che per alcune settimane di quell’estate ospitò persino la <b>corte di Giuseppe I Bonaparte</b>, in fuga da Madrid dopo la sconfitta di Salamanca. Un breve periodo che lasciò comunque un’impronta di riforme urbanistiche e arie neoclassiche."
+       data-es="La Edad Moderna trajo tiempos de cambio y conflicto, marcados por la pérdida de los fueros en 1707. Uno de los capítulos más singulares ocurrió en <b>1812</b>, durante la invasión napoleónica. Tras un feroz asedio, el <b>mariscal Suchet</b> tomó la ciudad, que durante algunas semanas de aquel verano llegó a acoger la <b>corte de José I Bonaparte</b>, huido de Madrid tras la derrota de Salamanca. Un breve periodo que dejó, aun así, una huella de reformas urbanísticas y aires neoclásicos.">
     </p>
 
     <h3 id="storia-novecento" data-it="6. Il '900" data-es="6. El siglo XX">6. Il '900</h3>
-    <p data-it="Il XX secolo è stato per Valencia un’epoca di trasformazioni radicali. Durante la <b>Guerra Civile</b>, la città divenne il cuore politico della Spagna: <b>dal novembre 1936 all'ottobre 1937, Valencia fu infatti la capitale della Seconda Repubblica</b>, accogliendo il governo in fuga da Madrid. L'evento che però ne cambiò per sempre l'urbanistica fu la <b>Gran Riada del 14 ottobre 1957</b>. In sole 24 ore, il fiume Turia esondò due volte, sommergendo la città sotto metri di fango e causando oltre 80 vittime (ufficiali). Per evitare nuove catastrofi, il governo approvò il <b>'Plan Sur'</b>, un mastodontico progetto di ingegneria che deviò il corso del fiume a sud della città. Negli anni '70, il regime franchista intendeva trasformare l'antico letto asciutto in un'autostrada urbana. Tuttavia, i cittadini si opposero con forza al grido di 'El llit del Túria és nostre i lo volem verd' (Il letto del Turia è nostro e lo vogliamo verde). Grazie a questa <b>mobilitazione sociale</b>, Valencia oggi vanta il Giardino del Turia: un polmone verde di 110 ettari che attraversa il centro storico."
-       data-es="El siglo XX fue para Valencia una época de transformaciones radicales. Durante la <b>Guerra Civil</b>, la ciudad se convirtió en el corazón político de España: <b>desde noviembre de 1936 hasta octubre de 1937, Valencia fue la capital de la Segunda República</b>, acogiendo al gobierno que huía de Madrid. Sin embargo, el evento que cambió para siempre su urbanismo fue la <b>Gran Riada del 14 de octubre de 1957</b>. En solo 24 horas, el río Turia se desbordó dos veces, sumergiendo la ciudad bajo metros de lodo y causando más de 80 víctimas (oficiales). Para evitar nuevas catástrofes, el gobierno aprobó el <b>'Plan Sur'</b>, un mastodóntico proyecto de ingeniería que desvió el curso del río hacia el sur de la ciudad. En los años 70, el régimen franquista pretendía transformar el antiguo cauce seco en una autopista urbana. No obstante, los ciudadanos se opusieron con fuerza bajo el lema 'El llit del Túria és nostre i lo volem verd' (El lecho del Turia es nuestro y lo queremos verde). Gracias a esta <b>movilización social</b>, Valencia hoy presume del Jardín del Turia: un pulmón verde de 110 hectáreas que atraviesa el centro histórico.">
+    <p data-it="Il XX secolo è stato per Valencia un’epoca di trasformazioni radicali. Durante la <b>Guerra Civile</b>, la città divenne il cuore politico della Spagna: <b>dal novembre 1936 all'ottobre 1937, Valencia fu infatti la capitale della Seconda Repubblica</b>, accogliendo il governo in fuga da Madrid. L'evento che però ne cambiò per sempre l'urbanistica fu la <b>Gran Riada del 14 ottobre 1957</b>. In sole 24 ore, il fiume Turia esondò due volte, sommergendo la città sotto metri di fango e causando oltre 80 vittime (ufficiali). Per evitare nuove catastrofi, il governo approvò il <b>'Plan Sur'</b>, un mastodontico progetto di ingegneria che deviò il corso del fiume a sud della città. Negli anni '70, il regime franchista intendeva trasformare l'antico letto asciutto in un'autostrada urbana. Tuttavia, i cittadini si opposero con forza al grido di 'El llit del Túria és nostre i el volem verd' (Il letto del Turia è nostro e lo vogliamo verde). Grazie a questa <b>mobilitazione sociale</b>, Valencia oggi vanta il Giardino del Turia: un polmone verde di 110 ettari che attraversa il centro storico."
+       data-es="El siglo XX fue para Valencia una época de transformaciones radicales. Durante la <b>Guerra Civil</b>, la ciudad se convirtió en el corazón político de España: <b>desde noviembre de 1936 hasta octubre de 1937, Valencia fue la capital de la Segunda República</b>, acogiendo al gobierno que huía de Madrid. Sin embargo, el evento que cambió para siempre su urbanismo fue la <b>Gran Riada del 14 de octubre de 1957</b>. En solo 24 horas, el río Turia se desbordó dos veces, sumergiendo la ciudad bajo metros de lodo y causando más de 80 víctimas (oficiales). Para evitar nuevas catástrofes, el gobierno aprobó el <b>'Plan Sur'</b>, un mastodóntico proyecto de ingeniería que desvió el curso del río hacia el sur de la ciudad. En los años 70, el régimen franquista pretendía transformar el antiguo cauce seco en una autopista urbana. No obstante, los ciudadanos se opusieron con fuerza bajo el lema 'El llit del Túria és nostre i el volem verd' (El lecho del Turia es nuestro y lo queremos verde). Gracias a esta <b>movilización social</b>, Valencia hoy presume del Jardín del Turia: un pulmón verde de 110 hectáreas que atraviesa el centro histórico.">
     </p>
     <img src="img/turia.jpg" alt="Giardini del Turia" class="inline-photo">
 
@@ -169,8 +179,8 @@
         <div class="inline-photo-container">
             <img src="img/escudo.png" alt="Escudo de Valencia" class="inline-photo full-view">
         </div>
-        <p data-it="Lo stemma di Valencia è un libro aperto sul valore militare. Il fondo dorato con quattro barre ha un'<b>origine epica</b>. Il racconto narra che il conte <b>Goffredo il Villoso</b>, dopo aver lottato eroicamente per aiutare l'imperatore franco Ludovico il Pio a sconfiggere i Normanni (o per aiutare Carlo il Calvo contro i mori), rimase gravemente ferito.<br><br>In segno di riconoscimento per il suo coraggio, l'imperatore si avvicinò al conte, che non aveva alcun fregio sul suo scudo giallo. Lo stesso re Ludovico intinse le dita nel sangue delle ferite di Goffredo e le fece scorrere verticalmente sull'oro dello scudo, disegnando le quattro barre rosse. Nacque così l'emblema di Aragona, che oggi rappresenta anche Valencia.<br><br>Ai lati dello scudo vedrai due 'L' coronate. Non sono semplici ornamenti: significano <b>’Doble Leal’</b> (due volte Leale). È il titolo che il re Pietro il Cerimonioso conferì alla città per aver resistito a due brutali attacchi delle truppe di Castiglia nel XIV secolo. Valencia non si arrese mai, e quelle lettere ricorderanno per sempre che la città è fedele alla sua storia." 
-           data-es="El escudo de Valencia es un libro abierto sobre el valor militar. El fondo de oro con cuatro palos de gules (rojo) tiene un origen épico. Cuenta el relato que el conde <b>Wifredo el Velloso</b>, tras luchar heroicamente para ayudar al emperador franco Luis el Piadoso a vencer a los normandos (o carlo el calvo contra los Moros), quedó gravemente herido.<br><br>En reconocimiento a su valentía, el emperador se acercó al conde, que no tenía ningún dibujo en su escudo amarillo. El propio rey Luis mojó sus dedos en la sangre de las heridas de Wifredo y los deslizó verticalmente sobre el oro del escudo, dibujando las cuatro barras rojas. Así nació el emblema de Aragòn, que hoy representa a Valencia también.<br><br>A los lados del escudo verás dos 'L' coronadas. No son solo adornos: significan <b>’Doble Leal’</b>. Es el título que el rey Pedro el Ceremonioso otorgó a la ciudad por haber resistido dos ataques brutales de las tropas de Castilla en el siglo XIV. Valencia nunca se rindió, y esas letras recordarán para siempre que la ciudad es fiel a su historia.">
+        <p data-it="Lo stemma di Valencia è un libro aperto sul valore militare. Il fondo dorato con quattro barre ha un'<b>origine epica</b>. Il racconto narra che il conte <b>Goffredo il Villoso</b>, dopo aver lottato eroicamente per aiutare l'imperatore franco Ludovico il Pio a sconfiggere i Normanni (o per aiutare Carlo il Calvo contro i mori), rimase gravemente ferito.<br><br>In segno di riconoscimento per il suo coraggio, l'imperatore si avvicinò al conte, che non aveva alcun fregio sul suo scudo giallo. Lo stesso re Ludovico intinse le dita nel sangue delle ferite di Goffredo e le fece scorrere verticalmente sull'oro dello scudo, disegnando le quattro barre rosse. Così, secondo la leggenda, nacque l'emblema della Corona d'Aragona, che oggi rappresenta anche Valencia.<br><br>Ai lati dello scudo vedrai due 'L' coronate. Non sono semplici ornamenti: significano <b>’Doble Leal’</b> (due volte Leale). È il titolo che il re Pietro il Cerimonioso conferì alla città per aver resistito a due brutali attacchi delle truppe di Castiglia nel XIV secolo. Valencia non si arrese mai, e quelle lettere ricorderanno per sempre che la città è fedele alla sua storia." 
+           data-es="El escudo de Valencia es un libro abierto sobre el valor militar. El fondo de oro con cuatro palos de gules (rojo) tiene un origen épico. Cuenta el relato que el conde <b>Wifredo el Velloso</b>, tras luchar heroicamente para ayudar al emperador franco Luis el Piadoso a vencer a los normandos (o a Carlos el Calvo contra los moros), quedó gravemente herido.<br><br>En reconocimiento a su valentía, el emperador se acercó al conde, que no tenía ningún dibujo en su escudo amarillo. El propio rey Luis mojó sus dedos en la sangre de las heridas de Wifredo y los deslizó verticalmente sobre el oro del escudo, dibujando las cuatro barras rojas. Así, según la leyenda, nació el emblema de la Corona de Aragón, que hoy representa también a Valencia.<br><br>A los lados del escudo verás dos 'L' coronadas. No son solo adornos: significan <b>’Doble Leal’</b>. Es el título que el rey Pedro el Ceremonioso otorgó a la ciudad por haber resistido dos ataques brutales de las tropas de Castilla en el siglo XIV. Valencia nunca se rindió, y esas letras recordarán para siempre que la ciudad es fiel a su historia.">
         </p>
 
         <h3 id="simboli-senyera" data-it="La Real Senyera" data-es="La Real Senyera">2. La Real Senyera</h3>
@@ -193,8 +203,8 @@
         <div class="inline-photo-container">
             <img src="img/naranjos.webp" alt="Naranjos de Valencia" class="inline-photo">
         </div>
-        <p data-it="Se Valencia avesse un colore, sarebbe l'arancione vibrante, e se avesse un profumo, sarebbe quello dei fiori d’arancio. Le arance non sono solo un frutto, ma il simbolo della trasformazione del paesaggio valenciano. Introdotte dagli arabi e perfezionate nel corso dei secoli, rappresentano la <b>fertilità della Huerta</b>, un sistema agricolo millenario che circonda la città. Vedere gli aranci nelle strade significa ricordare che Valencia è, innanzitutto, un giardino in riva al mare."
-           data-es="Si Valencia tuviera un color, sería el naranja vibrante, y si tuviera un aroma, sería el del azahar. Las naranjas no son solo un fruto, sino el símbolo de la transformación del paisaje valenciano. Introducidas por los árabes y perfeccionadas durante siglos, representan la <b>fertilidad de la Huerta</b>, un sistema agrícola milenario que rodea la ciudad. Ver los naranjos en las calles es recordar que Valencia es, ante todo, un jardín junto al mar.">
+        <p data-it="Se Valencia avesse un colore, sarebbe l'arancione vibrante, e se avesse un profumo, sarebbe quello dei fiori d’arancio. Le arance non sono solo un frutto, ma il simbolo della trasformazione del paesaggio valenciano. Introdotte dagli arabi (l'arancio amaro; quello dolce arrivò solo nel XVI secolo) e perfezionate nel corso dei secoli, rappresentano la <b>fertilità della Huerta</b>, un sistema agricolo millenario che circonda la città. Vedere gli aranci nelle strade significa ricordare che Valencia è, innanzitutto, un giardino in riva al mare."
+           data-es="Si Valencia tuviera un color, sería el naranja vibrante, y si tuviera un aroma, sería el del azahar. Las naranjas no son solo un fruto, sino el símbolo de la transformación del paisaje valenciano. Introducidas por los árabes (el naranjo amargo; el dulce llegó solo en el siglo XVI) y perfeccionadas durante siglos, representan la <b>fertilidad de la Huerta</b>, un sistema agrícola milenario que rodea la ciudad. Ver los naranjos en las calles es recordar que Valencia es, ante todo, un jardín junto al mar.">
         </p>
 
         <h3 id="simboli-masclet" data-it="El Masclet" data-es="El Masclet">5. El Masclet</h3>
@@ -298,6 +308,11 @@
         </div>
     </div>
 </section>
+<!-- ==========================================================
+     PROGRAMMA GITA (21-24 aprile) - NASCOSTO
+     Conservato come ricordo: per riattivarlo togli questo commento
+     e quello sulla voce di menu "PROGRAMMA" in cima al file.
+     ==========================================================
 <section id="programma" class="section">
         <h2 data-it="Programma di viaggio" data-es="Programa de viaje">Programma di viaggio</h2>
         
@@ -306,37 +321,37 @@
             <details class="day-card" open>
                 <summary data-it="MARTEDÌ 21/04 - Arrivo" data-es="MARTES 21/04 - Llegada">MARTEDÌ 21/04 - Arrivo</summary>
                 <div class="day-content">
-                    <div class="event"><span class="time">04:30-04:45</span><p>Ritrovo Malpensa T1 porta 15 <a href="https://www.google.com/maps/@45.6262809.8.7129797,19z/data=!5m1!1e1" target="_blank" class="map-btn">Mappa</a></p></div>
+                    <div class="event"><span class="time">04:30-04:45</span><p>Ritrovo Malpensa T1 porta 15 <a href="https://www.google.com/maps/@45.6262809,8.7129797,19z/data=!5m1!1e1" target="_blank" class="map-btn">Mappa</a></p></div>
                     <div class="event"><span class="time">07:05</span><p>Volo Ryanair FR1444 ✈️</p></div>
                     <div class="event"><span class="time">11:00</span><p>Arrivo in hotel (transfer privato da aeroporto), deposito bagagli e acquisto abbonamenti metro (SUMA10 - 10 viaggi - 9€ + 2,2€ tessera ricaricabile)</p></div>
-                    <div class="event"><span class="time">A seguire</span><p>Visita a piedi del centro storico <a href="#" onclick="showSection('storia')" class="app-link">Leggi la Storia</a></p></div>
-                    <div class="event highlight"><span class="time">19:30</span><p>rientro in hotel e check-in <a href="#" onclick="showSection('mappa')" class="app-link">Hotel Camplus 🏨</a></p></div>
+                    <div class="event"><span class="time">A seguire</span><p>Visita a piedi del centro storico <a href="#" onclick="jumpTo('storia', 'storia-fondazione'); return false;" class="app-link">Leggi la Storia</a></p></div>
+                    <div class="event highlight"><span class="time">19:30</span><p>rientro in hotel e check-in <a href="#" onclick="jumpTo('mappa', 'map-container', 'hotel-camplus-valencia-towers'); return false;" class="app-link">Hotel Camplus 🏨</a></p></div>
                     <div class="event"><span class="time">21:00</span><p>Cena in hotel 🍴</p></div>
                 </div>
             </details>
 
             <details class="day-card">
-                <summary data-it="MERCOLEDÌ 22/04 - Centro storico e mare" data-es="MIÉRCOLES 22/04 - Centro historico y mar">MERCOLEDÌ 22/04 - Centro e Mare</summary>
+                <summary data-it="MERCOLEDÌ 22/04 - Centro storico e mare" data-es="MIÉRCOLES 22/04 - Centro histórico y mar">MERCOLEDÌ 22/04 - Centro e Mare</summary>
                 <div class="day-content">
-                    <div class="event"><span class="time">da 6:45</span><p>Colazione in hotel (se accettano ancticipo)</p></div>
-                    <div class="event"><span class="time">08:45</span><p>Visita <a href="#" onclick="showSection('punti-di-interesse')" class="app-link">Mercato Centrale e Lonja</a></p></div>
-                    <div class="event"><span class="time">11:30</span><p>Visita Cattedrale <a href="#" onclick="showSection('simboli')" class="app-link">Simboli di Valencia</a></p></div>
-                    <div class="event highlight"><span class="time">14:00</span><p>Pranzo Paella: <a href="#" onclick="showSection('mappa')" class="app-link">La Ferradura 🥘</a></p></div>
-                    <div class="event"><span class="time">15:30</span><p>Visita <a href="#" onclick="showSection('mappa')" class="app-link">Casa-Museo Blasco Ibáñez</a> e spiaggia</p></div>
-                    <div class="event"><span class="time">20:30</span><p>Cena in hotel (se accettano ancticipo)</p></div>
+                    <div class="event"><span class="time">da 6:45</span><p>Colazione in hotel (se accettano anticipo)</p></div>
+                    <div class="event"><span class="time">08:45</span><p>Visita <a href="#" onclick="jumpTo('punti-di-interesse', 'mercado-central'); return false;" class="app-link">Mercato Centrale e Lonja</a></p></div>
+                    <div class="event"><span class="time">11:30</span><p>Visita Cattedrale <a href="#" onclick="jumpTo('simboli', 'simboli-escudo'); return false;" class="app-link">Simboli di Valencia</a></p></div>
+                    <div class="event highlight"><span class="time">14:00</span><p>Pranzo Paella: <a href="#" onclick="jumpTo('mappa', 'map-container', 'restaurante-la-ferradura'); return false;" class="app-link">La Ferradura 🥘</a></p></div>
+                    <div class="event"><span class="time">15:30</span><p>Visita <a href="#" onclick="jumpTo('mappa', 'map-container', 'casa-museo-blasco-ibanez'); return false;" class="app-link">Casa-Museo Blasco Ibáñez</a> e spiaggia</p></div>
+                    <div class="event"><span class="time">20:30</span><p>Cena in hotel (se accettano anticipo)</p></div>
                     <div class="event"><span class="time">21:30</span><p>Passeggiata serale centro storico</p></div>
                 </div>
             </details>
 
             <details class="day-card">
-                <summary data-it="GIOVEDÌ 23/04 - Museo delle Scienze, Fallas e Oceanografico" data-es="JUEVES 23/04 - Muso de las Ciencias, Fallas y Oceanografic">GIOVEDÌ 23/04 - Scienza e Fallas</summary>
+                <summary data-it="GIOVEDÌ 23/04 - Museo delle Scienze, Fallas e Oceanografico" data-es="JUEVES 23/04 - Museo de las Ciencias, Fallas y Oceanografic">GIOVEDÌ 23/04 - Scienza e Fallas</summary>
                 <div class="day-content">
-                    <div class="event"><span class="time">da 6:45</span><p>Colazione in hotel (se accettano ancticipo)</p></div>
+                    <div class="event"><span class="time">da 6:45</span><p>Colazione in hotel (se accettano anticipo)</p></div>
                     <div class="event"><span class="time">10:00</span><p>Museo delle Scienze Principe Felipe</p></div>
-                    <div class="event"><span class="time">13:00</span><p>Visita Museo Fallero <a href="#" onclick="showSection('simboli')" class="app-link">Cos'è una Falla?</a></p></div>
-                    <div class="event highlight"><span class="time">15:30</span><p>Ingresso <a href="#" onclick="showSection('mappa')" class="app-link">Oceanogràfic 🐬</a></p></div>
+                    <div class="event"><span class="time">13:00</span><p>Visita Museo Fallero <a href="#" onclick="jumpTo('cultura', 'cultura-feste'); return false;" class="app-link">Cos'è una Falla?</a></p></div>
+                    <div class="event highlight"><span class="time">15:30</span><p>Ingresso <a href="#" onclick="jumpTo('mappa', 'map-container', 'oceanografic'); return false;" class="app-link">Oceanogràfic 🐬</a></p></div>
                     <div class="event"><span class="time">21:00</span><p>Cena in hotel</p></div>
-                    <div class="event"><span class="time">23:00</span><p>Serata fuori presso Tulum Valencia (se accettano ancticipo)</p></div>
+                    <div class="event"><span class="time">23:00</span><p>Serata fuori presso Tulum Valencia (se accettano anticipo)</p></div>
                 </div>
             </details>
 
@@ -351,6 +366,7 @@
             </details>
         </div>
     </section>
+     -->
 
         <section id="checklist" class="section">
             <h2 data-it="Checklist documenti&bagagli" data-es="Lista de Verificación documentos y maletas">Checklist & Documenti</h2>
