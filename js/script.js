@@ -75,6 +75,8 @@ function focusMarker(poiId) {
 // DATI DEI PUNTI DI INTERESSE (POI)
 // ======================================================================
 const valenciaPOI = [
+    //Hotel e ristorante della gita 5ES-5FS 2025-26, nascosti ma tenuti come ricordo
+    /*
     {
         nome: "Hotel Camplus Valencia Towers",
         lat: 39.500115, 
@@ -92,7 +94,7 @@ const valenciaPOI = [
         tipologia: "gastronomia",    
         descrizione_IT: "Ristorante tipico sulla spiaggia della Malvarrosa. Qui degusteremo la vera paella valenciana e di mare.",
         descrizione_ES: "Restaurante típico en la playa de la Malvarrosa. Aquí degustaremos la verdadera paella valenciana y de marisco."
-    },
+    },*/
     {
         nome: "Casa-Museo Blasco Ibáñez",
         lat: 39.482678, 
